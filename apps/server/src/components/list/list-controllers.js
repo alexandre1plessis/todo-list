@@ -61,6 +61,27 @@ export const updateList = async (ctx) => {
   }
 }
 
+export const addTaskToList = async (ctx) => {
+  try {
+    const schema = joi.object({
+      task: joi.array().required()
+    })
+    const { error, value } = schema.validate(ctx.request.body)
+
+    if(error) throw new Error(error)
+
+    const list = await ListModel.findById(ctx.params.id)
+    if (!list) throw new Error('List not found')
+  
+    list.tasks.push(value.task)
+    const updatedList = await list.save()
+    ctx.ok(updatedList)
+  } catch (error) {
+    ctx.badRequest({ message: error.message })
+  }
+}
+
+
 export const deleteList = async (ctx) => {
   try {
     const list = await ListModel.findOneAndDelete({ _id: ctx.params.id })
