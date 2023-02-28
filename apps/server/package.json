@@ -1,0 +1,20 @@
+{
+  "name": "server",
+  "packageManager": "yarn@3.4.1",
+  "type": "module",
+  "scripts": {
+    "dev": "nodemon -r dotenv/config app.js"
+  },
+  "dependencies": {
+    "@koa/cors": "^4.0.0",
+    "@koa/router": "^12.0.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.3",
+    "joi": "^17.8.3",
+    "koa": "^2.14.1",
+    "koa-bodyparser": "^4.3.0",
+    "koa-respond": "^2.1.0",
+    "mongoose": "^6.10.0",
+    "nodemon": "^2.0.20"
+  }
+}
