@@ -9,6 +9,10 @@ const taskSchema = new Schema({
   },
   description: {
     type: String
+  },
+  state: {
+    type: Boolean,
+    default: false
   }
 }, {
   timestamps: true
