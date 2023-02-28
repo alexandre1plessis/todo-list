@@ -5,6 +5,7 @@
       :key="list.id"
       :title="list.title"
     ></CardList>
+  <button>+</button>
 </template>
 <script setup>
 import CardList from 'components/CardList.vue'

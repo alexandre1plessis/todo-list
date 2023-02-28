@@ -11,7 +11,7 @@
       ></TaskComponant>
     </p>
   </slot>
-  <p>Voir la liste complète t</p>
+  <p>Voir la liste complète</p>
 </template>
 
 <script setup>

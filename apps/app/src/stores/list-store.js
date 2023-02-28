@@ -23,6 +23,16 @@ export const useListStore = defineStore('list', {
       }
     },
 
+    async addList (title) {
+      try {
+        const list = { title: title }
+        await api.post('/', list)
+        await this.getLists()
+      } catch (error) {
+        Notify.create('Error during create a list')
+      }
+    },
+
     increment () {
       this.counter++
     }
