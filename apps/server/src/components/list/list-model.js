@@ -30,5 +30,6 @@ const listSchema = new Schema({
 })
 
 const ListModel = mongoose.model('List', listSchema)
+const TaskModel = mongoose.model('Task', taskSchema)
 
-export { ListModel }
+export { ListModel, TaskModel }

@@ -31,6 +31,9 @@ export const createList = async (ctx) => {
 
     if(error) throw new Error(error)
 
+    const listname = await ListModel.findOne({ title: ctx.request.body.title })
+    if (listname) throw new Error('List already exists')
+
     const list = await ListModel.create(value)
     ctx.ok(list)
   } catch (error) {
@@ -47,6 +50,9 @@ export const updateList = async (ctx) => {
     const { error, value } = schema.validate(ctx.request.body)
 
     if(error) throw new Error(error)
+
+    const listname = await ListModel.findOne({ title: ctx.request.body.title })
+    if (listname) throw new Error('List already exists')
   
     const list = await ListModel.findOneAndUpdate({ _id: ctx.params.id }, value, { new: true })
     ctx.ok(list)
