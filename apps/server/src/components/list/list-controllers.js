@@ -31,6 +31,9 @@ export const createList = async (ctx) => {
 
     if(error) throw new Error(error)
 
+    const listname = await ListModel.findOne({ title: ctx.request.body.title })
+    if (listname) throw new Error('List already exists')
+
     const list = await ListModel.create(value)
     ctx.ok(list)
   } catch (error) {
@@ -47,6 +50,9 @@ export const updateList = async (ctx) => {
     const { error, value } = schema.validate(ctx.request.body)
 
     if(error) throw new Error(error)
+
+    const listname = await ListModel.findOne({ title: ctx.request.body.title })
+    if (listname) throw new Error('List already exists')
   
     const list = await ListModel.findOneAndUpdate({ _id: ctx.params.id }, value, { new: true })
     ctx.ok(list)
@@ -54,6 +60,27 @@ export const updateList = async (ctx) => {
     ctx.badRequest({ message: error.message })
   }
 }
+
+export const addTaskToList = async (ctx) => {
+  try {
+    const schema = joi.object({
+      task: joi.array().required()
+    })
+    const { error, value } = schema.validate(ctx.request.body)
+
+    if(error) throw new Error(error)
+
+    const list = await ListModel.findById(ctx.params.id)
+    if (!list) throw new Error('List not found')
+  
+    list.tasks.push(value.task)
+    const updatedList = await list.save()
+    ctx.ok(updatedList)
+  } catch (error) {
+    ctx.badRequest({ message: error.message })
+  }
+}
+
 
 export const deleteList = async (ctx) => {
   try {

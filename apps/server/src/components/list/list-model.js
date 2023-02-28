@@ -9,6 +9,10 @@ const taskSchema = new Schema({
   },
   description: {
     type: String
+  },
+  state: {
+    type: Boolean,
+    default: false
   }
 }, {
   timestamps: true
@@ -26,5 +30,6 @@ const listSchema = new Schema({
 })
 
 const ListModel = mongoose.model('List', listSchema)
+const TaskModel = mongoose.model('Task', taskSchema)
 
-export { ListModel }
+export { ListModel, TaskModel }
