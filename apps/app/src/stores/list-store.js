@@ -22,6 +22,7 @@ export const useListStore = defineStore('list', {
         Notify.create('Error during loading lists')
       }
     },
+
     increment () {
       this.counter++
     }
