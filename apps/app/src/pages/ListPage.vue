@@ -1,20 +1,22 @@
 <template>
     <div>
-        <h1>List page</h1>
-        <p class="bold">Identifiant : {{ id }}</p>
+        <h1>List name</h1>
+        <div class="tasksList">
+            <h2>Tasks - {{ tasks.length }}</h2>
 
-        <q-btn label="to homepage"
-        @click="() => router.push('/')">
-        </q-btn>
+            <div v-for="task in tasks" :key="task._id"  @click="() => router.push({ name: 'detail-task', params:{ id: task._id }})">
+                <input type="checkbox" @input="event => editStatusTask(event.target.value)">
+                <p>{{ task.title }}</p>
+            </div>
+        </div>
 
-        <div v-for="(list, index) in lists" :key="index">
-            <q-card>
-                <q-card-section>
-                    <p class="text-bold">{{ list.title }}</p>
-                    <q-btn label="Show list" @click="() => router.push({ name: 'list-view', params:{ id: list._id }})"></q-btn>
-                </q-card-section>
-            </q-card>
-            <p>{{ list }}</p>
+        <div class="tasksList">
+            <h2>Tasks completed - {{ tasksCompleted.length }}</h2>
+
+            <div v-for="task in tasksCompleted" :key="task._id"  @click="() => router.push({ name: 'detail-task', params:{ id: task._id }})">
+                <input type="checkbox" @input="event => editStatusTask(event.target.value)">
+                <p >{{ task.title }}</p>
+            </div>
         </div>
     </div>
 </template>
@@ -27,13 +29,16 @@ import { useRoute, useRouter } from 'vue-router'
 const route = useRoute()
 const router = useRouter()
 const listStore = useListStore()
-const lists = computed(() => listStore.lists)
+const tasks = computed(() => listStore.lists)
+const tasksCompleted = []
+
+const id = computed(() => route.params.id)
 
 onMounted(async () => {
   await listStore.getLists()
 })
 
-const id = computed(() => route.params.id)
-console.log(route)
-console.log(lists)
+function editStatusTask (event) {
+  console.log(id)
+}
 </script>

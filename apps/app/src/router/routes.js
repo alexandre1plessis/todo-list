@@ -6,7 +6,9 @@ const routes = [
     children: [
       { path: '', name: 'home', component: () => import('pages/HomePage.vue') },
       { path: '/tuto', component: () => import('pages/TutoPage.vue') },
-      { path: '/lists/:id', name: 'list-view', component: () => import('pages/ListPage.vue') }
+      { path: '/lists/:id', name: 'list-view', component: () => import('pages/ListPage.vue') },
+      { path: '/tasks/:id', name: 'task-page', component: () => import('pages/taskPage.vue') },
+      { path: '/tasks/addEditTask/:id', name: 'add-edit-task', component: () => import('pages/AddEditTask.vue') }
     ]
   },
 

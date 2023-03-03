@@ -8,5 +8,6 @@ tasks.get('/:id', TaskControllers.getOneTask)
 tasks.post('/', TaskControllers.createTask)
 tasks.put('/:id', TaskControllers.updateTask)
 tasks.del('/:id', TaskControllers.deleteTask)
+tasks.put('/', TaskControllers.addTaskToListById) // need to put listId and taskId in body
 
 export default tasks
