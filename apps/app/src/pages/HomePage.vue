@@ -15,7 +15,7 @@
 
       <fieldset>
         <legend>List name</legend>
-        <input :value="textModal" @input="event => textModal = event.target.value" :placeholder="'Ex: Courses'">
+        <input v-model="titre" :placeholder="'Ex: Courses'">
       </fieldset>
 
       <div class="modalButtons">
@@ -37,18 +37,18 @@ const titre = ref()
 const listStore = useListStore()
 const lists = computed(() => listStore.lists)
 const displayModal = ref(false)
-let textModal
+
+onMounted(async () => {
+  await listStore.getLists()
+})
 
 function save () {
   if (titre.value) {
     listStore.addList(titre.value)
   }
+  titre.value = ''
   AddList()
 }
-
-onMounted(async () => {
-  await listStore.getLists()
-})
 
 function AddList () {
   displayModal.value = false
