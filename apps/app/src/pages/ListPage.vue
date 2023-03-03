@@ -18,6 +18,7 @@
                 <p >{{ task.title }}</p>
             </div>
         </div>
+        <add-list-component class="addListComponent"></add-list-component>
     </div>
 </template>
 
@@ -42,3 +43,14 @@ function editStatusTask (event) {
   console.log(id)
 }
 </script>
+
+<style>
+.addListComponent{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.25);
+}
+</style>

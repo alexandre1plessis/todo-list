@@ -31,12 +31,14 @@
                 </ul>
             </slot>
         </div>
-
-        <div v-if="tasks.length >= 0">
-            <hr class="listCardSeparator"/>
-            <div class="seeMore" >
-                Voir la liste complète
-            </div>
+        <div>
+          <hr class="listCardSeparator"/>
+          <div v-if="tasks.length > 0" class="seeMore">
+              Voir la liste complète
+          </div>
+          <div v-else class="seeMore" @click="() => router.push({ name: 'add-edit-task', params:{ id: false }})">
+              Ajouter une tâche
+          </div>
         </div>
       </q-card-section>
     </q-card>
@@ -69,7 +71,7 @@ const router = useRouter()
     padding: 0;
 }
 .listCard{
-    width: 85%;
+    width: 100%;
     border-radius: 10px;
 }
 .listCardHeader{
@@ -97,7 +99,8 @@ const router = useRouter()
 .seeMore{
     width: 100%;
     text-align: center;
-    padding: 10px 0 15px
+    padding: 10px 0 15px;
+    cursor: pointer;
 }
 .seeMore:hover{
     background-color: #f5f5f5;
