@@ -27,7 +27,6 @@ export const createList = async (ctx) => {
 
     const schema = joi.object({
       title: joi.string().required(),
-      tasks: joi.array()
     })
     const { error, value } = schema.validate(ctx.request.body)
 
@@ -49,7 +48,6 @@ export const updateList = async (ctx) => {
 
     const schema = joi.object({
       title: joi.string(),
-      tasks: joi.array()
     })
     const { error, value } = schema.validate(ctx.request.body)
 

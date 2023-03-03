@@ -13,6 +13,11 @@ const taskSchema = new Schema({
   state: {
     type: Boolean,
     default: false
+  },
+  list: {
+    type: Schema.Types.ObjectId,
+    ref: 'List',
+    required: true
   }
 }, {
   timestamps: true
@@ -22,8 +27,7 @@ const listSchema = new Schema({
   title: {
     type: String,
     required: true
-  },
-  tasks: [taskSchema]
+  }
 }, 
 {
   timestamps: true
