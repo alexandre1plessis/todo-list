@@ -1,4 +1,4 @@
-import { ListModel } from './list-model.js'
+import { ListModel, TaskModel } from './list-model.js'
 import joi from 'joi'
 import { SchemaType } from 'mongoose'
 
@@ -27,7 +27,6 @@ export const createList = async (ctx) => {
 
     const schema = joi.object({
       title: joi.string().required(),
-      tasks: joi.array()
     })
     const { error, value } = schema.validate(ctx.request.body)
 
@@ -49,7 +48,6 @@ export const updateList = async (ctx) => {
 
     const schema = joi.object({
       title: joi.string(),
-      tasks: joi.array()
     })
     const { error, value } = schema.validate(ctx.request.body)
 
@@ -70,6 +68,16 @@ export const deleteList = async (ctx) => {
     const list = await ListModel.findOneAndDelete({ _id: ctx.params.id })
     if(!list) throw new Error('List not found')
     ctx.ok(list)
+  } catch (error) {
+    ctx.badRequest({ message: error.message })
+  }
+}
+
+export const getTasksByListId = async (ctx) => {
+  try {
+    const tasks = await TaskModel.find({ list: ctx.params.id })
+    if(!tasks) throw new Error('List not found')
+    ctx.ok(tasks)
   } catch (error) {
     ctx.badRequest({ message: error.message })
   }
