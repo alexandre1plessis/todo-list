@@ -3,7 +3,7 @@
     <h1>Home</h1>
     <div class="listCards">
       <CardList
-        v-for="list in listStore.lists"
+        v-for="list in lists"
         :key="list.id"
         :title="list.title"
       ></CardList>
@@ -15,12 +15,12 @@
 
       <fieldset>
         <legend>List name</legend>
-        <input :value="textModal" @input="event => textModal = event.target.value" :placeholder="'Ex: Courses'">
+        <input v-model="titre" :placeholder="'Ex: Courses'">
       </fieldset>
 
       <div class="modalButtons">
       <q-btn label="Annuler" @click="() => {displayModal = false}"></q-btn>
-      <q-btn label="Créer" @click="() => AddList()"></q-btn>
+      <q-btn label="Créer" @click="save()"></q-btn>
 
       </div>
     </div>
@@ -31,15 +31,24 @@
 <script setup>
 import CardList from 'components/CardList.vue'
 import { useListStore } from 'stores/list-store'
-import { onMounted, ref } from 'vue'
-const displayModal = ref(false)
+import { onMounted, computed, ref } from 'vue'
+
+const titre = ref()
 const listStore = useListStore()
-let textModal
+const lists = computed(() => listStore.lists)
+const displayModal = ref(false)
 
-listStore.getLists()
-
-onMounted(() => {
+onMounted(async () => {
+  await listStore.getLists()
 })
+
+function save () {
+  if (titre.value) {
+    listStore.addList(titre.value)
+  }
+  titre.value = ''
+  AddList()
+}
 
 function AddList () {
   displayModal.value = false
