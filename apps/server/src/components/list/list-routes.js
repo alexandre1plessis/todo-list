@@ -8,5 +8,6 @@ lists.get('/:id', ListControllers.getOneList)
 lists.post('/', ListControllers.createList)
 lists.put('/:id', ListControllers.updateList)
 lists.del('/:id', ListControllers.deleteList)
+lists.get('/tasks/:id', ListControllers.getTasksByListId)
 
 export default lists
