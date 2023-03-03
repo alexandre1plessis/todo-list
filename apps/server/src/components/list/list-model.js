@@ -8,7 +8,8 @@ const taskSchema = new Schema({
     required: true
   },
   description: {
-    type: String
+    type: String,
+    default: 'Pas de description pour cette tâche',
   },
   state: {
     type: Boolean,
