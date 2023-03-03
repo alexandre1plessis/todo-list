@@ -1,4 +1,3 @@
-
 <script setup>
 import TaskComponant from 'components/TaskComponant.vue'
 defineProps({
@@ -48,18 +47,15 @@ defineProps({
 
         <div v-if="tasks.length >= 0" >
             <hr class="listCardSeparator"/>
-
             <div class="seeMore">
                 Voir la liste complète
             </div>
         </div>
       </q-card-section>
-
     </q-card>
 </template>
 
 <style scoped>
-
 .q-card__section--vert{
     padding: 0;
 }
