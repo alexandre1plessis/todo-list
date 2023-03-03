@@ -7,7 +7,8 @@ const routes = [
       { path: '', component: () => import('pages/HomePage.vue') },
       { path: '/tuto', component: () => import('pages/TutoPage.vue') },
       { path: '/lists/:id', name: 'list-page', component: () => import('pages/ListPage.vue') },
-      { path: '/tasks/:id', name: 'detail-task', component: () => import('pages/DetailTask.vue') }
+      { path: '/tasks/:id', name: 'detail-task', component: () => import('pages/DetailTask.vue') },
+      { path: '/tasks/addEditTask/:id', name: 'add-edit-task', component: () => import('pages/AddEditTask.vue') }
     ]
   },
 
