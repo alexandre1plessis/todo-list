@@ -25,6 +25,7 @@ import { onMounted, computed } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 // import { TaskModel } from
 
+// const pageType = ref('Créer')
 let pageType
 const route = useRoute()
 const router = useRouter()
@@ -33,9 +34,11 @@ const task = computed(() => {
   console.log(route.params)
   if (route.params.id) {
     pageType = 'Modifier'
+    // pageType.value = 'Modifier'
     // return getTask
   } else {
     pageType = 'Créer'
+    // pageType.value = 'Créer'
     // return new TaskModel()
   }
   return true
