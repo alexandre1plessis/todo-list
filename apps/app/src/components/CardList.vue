@@ -22,20 +22,19 @@
         <div class="listCardContent">
             <slot name="default">
                 <p v-if="tasks.length == 0" >Cette liste ne contient aucune tâches ajoutez en une depuis la liste</p>
-                <p v-else>
+                <ul v-else>
                 <TaskComponant
                     v-for="task in tasks"
                     :key="task.id"
-                    :isChecked="task.status"
-                    :description="task.description"
+                    :task="task"
                 ></TaskComponant>
-                </p>
+                </ul>
             </slot>
         </div>
 
-        <div v-if="tasks.length >= 0" >
+        <div v-if="tasks.length >= 0">
             <hr class="listCardSeparator"/>
-            <div class="seeMore">
+            <div class="seeMore" >
                 Voir la liste complète
             </div>
         </div>

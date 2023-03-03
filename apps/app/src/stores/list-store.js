@@ -8,18 +8,21 @@ export const useListStore = defineStore('list', {
   }),
 
   getters: {
-    doubleCount (state) {
-      return state.counter * 2
-    }
+
   },
 
   actions: {
     async getLists () {
-      try {
-        const lists = await api.get('/lists')
-        this.lists = lists.data
-      } catch (error) {
-        Notify.create('Error during loading lists')
+      const lists = await api.get('/lists')
+        .then()
+        .catch(error => Notify.create(`Error during loading lists: ${error.message}`))
+      this.lists = lists.data
+      for (const list of this.lists) {
+        list.tasks = await api.get(`/lists/tasks/${list._id}`)
+          .then(reponse => {
+            return reponse.data
+          })
+          .catch(error => Notify.create(`Error during loading tasks: ${error.message}`))
       }
     },
 
@@ -31,8 +34,11 @@ export const useListStore = defineStore('list', {
       await this.getLists()
     },
 
-    increment () {
-      this.counter++
+    async updateTask (task) {
+      const newTask = { title: task.title, description: task.description, state: task.state, list: task.list }
+      await api.put(`/tasks/${task._id}`, newTask)
+        .then(Notify.create('La tache a été mit à jour '))
+        .catch(error => Notify.create(`Error during update a task: ${error.message}`))
     }
   }
 })

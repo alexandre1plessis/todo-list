@@ -7,8 +7,8 @@
         :key="list._id"
         :id="list._id"
         :title="list.title"
+        :tasks="list.tasks"
       ></CardList>
-      {{ lists }}
     </div>
     <q-btn label="+" @click="() => {displayModal = true}"></q-btn>
 
