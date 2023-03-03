@@ -10,9 +10,8 @@
             </div>
         </div>
 
-        
         <div class="tasksList">
-            <h2>Tasks - {{ tasksCompleted.length }}</h2>
+            <h2>Tasks completed - {{ tasksCompleted.length }}</h2>
 
             <div v-for="task in tasksCompleted" :key="task._id"  @click="() => router.push({ name: 'detail-task', params:{ id: task._id }})">
                 <input type="checkbox" @input="event => editStatusTask(event.target.value)">
@@ -27,7 +26,6 @@ import { useListStore } from 'src/stores/list-store'
 import { onMounted, computed } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 
-let nbTask
 const route = useRoute()
 const router = useRouter()
 const listStore = useListStore()
@@ -41,6 +39,6 @@ onMounted(async () => {
 })
 
 function editStatusTask (event) {
-
+  console.log(id)
 }
 </script>

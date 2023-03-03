@@ -24,16 +24,11 @@ export const useListStore = defineStore('list', {
     },
 
     async addList (title) {
-      try {
-        const list = { title: title }
-        await api.post('/', list)
-        console.log('post ?')
-        const lists = await this.getLists()
-        this.lists = lists.data
-      } catch (error) {
-        console.log(error)
-        Notify.create(`Error during create a list: ${error.message}`)
-      }
+      const list = { title: title }
+      await api.post('/lists/', list)
+        .then(() => (Notify.create('La liste a été crée ')))
+        .catch(error => Notify.create(`Error during create a list: ${error.message}`))
+      await this.getLists()
     },
 
     increment () {

@@ -1,17 +1,3 @@
-<script setup>
-import TaskComponant from 'components/TaskComponant.vue'
-defineProps({
-  title: {
-    type: String,
-    default: 'Title'
-  },
-  tasks: {
-    type: Array,
-    default: () => []
-  }
-})
-</script>
-
 <template>
     <q-card flat bordered class="listCard">
       <q-card-section class="listCardHeader">
@@ -20,10 +6,12 @@ defineProps({
               <q-menu cover auto-close>
                 <q-list>
                   <q-item clickable>
-                    <q-item-section>Remove Card</q-item-section>
+                    <!-- TODO: Modal suppression   -->
+                    <q-item-section>Supprimer list</q-item-section>
                   </q-item>
-                  <q-item clickable>
-                    <q-item-section>Edit Card</q-item-section>
+                    <!--  TODO: modifier chemin-->
+                  <q-item clickable @click="() => router.push({ name: 'list-view', params:{ id: id }})">
+                    <q-item-section>Modifier list</q-item-section>
                   </q-item>
                 </q-list>
               </q-menu>
@@ -54,6 +42,28 @@ defineProps({
       </q-card-section>
     </q-card>
 </template>
+
+<script setup>
+import TaskComponant from 'components/TaskComponant.vue'
+import { useRouter } from 'vue-router'
+
+defineProps({
+  id: {
+    type: String,
+    default: ''
+  },
+  title: {
+    type: String,
+    default: 'Title'
+  },
+  tasks: {
+    type: Array,
+    default: () => []
+  }
+})
+
+const router = useRouter()
+</script>
 
 <style scoped>
 .q-card__section--vert{

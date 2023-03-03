@@ -4,9 +4,11 @@
     <div class="listCards">
       <CardList
         v-for="list in lists"
-        :key="list.id"
+        :key="list._id"
+        :id="list._id"
         :title="list.title"
       ></CardList>
+      {{ lists }}
     </div>
     <q-btn label="+" @click="() => {displayModal = true}"></q-btn>
 
