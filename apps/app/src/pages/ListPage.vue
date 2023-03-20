@@ -2,12 +2,14 @@
     <div>
         <h1>List name</h1>
         <div>
-            <h2>Tasks - {{ tasks.length }}</h2>
+            <h2>Tasks - {{ tasks && tasks.length }}</h2>
 
             <div class="tasksList">
-                <div class="task" v-for="task in tasks" :key="task._id"  @click="() => router.push({ name: 'detail-task', params:{ id: task._id }})">
-                    <input type="checkbox" @input="event => editStatusTask(event.target.value)">
+                <div v-for="task in tasks" :key="task._id"  @click="() => router.push({ name: 'detail-task', params:{ id: task._id }})">
+                <div v-if="!task.state">
+                    <input type="checkbox">
                     <p>{{ task.title }}</p>
+                </div>
                 </div>
             </div>
         </div>
@@ -35,13 +37,16 @@ import { useRoute, useRouter } from 'vue-router'
 const route = useRoute()
 const router = useRouter()
 const listStore = useListStore()
-const tasks = computed(() => listStore.lists)
+const tasks = computed(() => listStore.tasks)
+// const tasksIncompleted = []
 const tasksCompleted = []
 
 const id = computed(() => route.params.id)
 
 onMounted(async () => {
+  const id = computed(() => route.params.id)
   await listStore.getLists()
+  await listStore.getTasks(id.value)
 })
 
 function editStatusTask (event) {

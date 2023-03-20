@@ -82,3 +82,21 @@ export const getTasksByListId = async (ctx) => {
     ctx.badRequest({ message: error.message })
   }
 }
+
+export const getCompletedTasksByListId = async (ctx) => {
+  try {
+    const tasks = await TaskModel.find({ list: ctx.params.id, state: true })
+    ctx.ok(tasks || [])
+  } catch (error) {
+    ctx.badRequest({ message: error.message })
+  }
+}
+
+export const getUncompletedTasksByListId = async (ctx) => {
+  try {
+    const tasks = await TaskModel.find({ list: ctx.params.id, state: false })
+    ctx.ok(tasks || [])
+  } catch (error) {
+    ctx.badRequest({ message: error.message })
+  }
+}
