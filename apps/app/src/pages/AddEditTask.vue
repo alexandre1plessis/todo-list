@@ -4,12 +4,12 @@
 
         <fieldset>
             <legend>Task</legend>
-            <input type="text" @input="event => taskName = event.target.value">
+            <input type="text" @input="event => taskName = event.target.value" placeholder="Describe your task">
         </fieldset>
 
         <fieldset>
             <legend>description</legend>
-            <input type="text" @input="event => taskDescription = event.target.value">
+            <input type="text" @input="event => taskDescription = event.target.value" placeholder="Describe your task...">
         </fieldset>
 
         <div class="buttons">
@@ -55,3 +55,14 @@ function editTask () {
 
 }
 </script>
+
+<style scoped>
+  fieldset {
+    border: none;
+    padding-bottom: 30px;
+  }
+  legend {
+    font-size: 16px;
+    font-weight: bold;
+  }
+</style>
