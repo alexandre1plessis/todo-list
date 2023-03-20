@@ -10,7 +10,7 @@
                     <q-item-section>Supprimer list</q-item-section>
                   </q-item>
                     <!--  TODO: modifier chemin-->
-                  <q-item clickable @click="() => router.push({ name: 'list-view', params:{ id: id }})">
+                  <q-item clickable @click="() => router.push({ name: 'list-page', params:{ id: id }})">
                     <q-item-section>Modifier list</q-item-section>
                   </q-item>
                 </q-list>

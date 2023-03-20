@@ -1,24 +1,29 @@
 <template>
     <div>
         <h1>List name</h1>
-        <div class="tasksList">
+        <div>
             <h2>Tasks - {{ tasks.length }}</h2>
 
-            <div v-for="task in tasks" :key="task._id"  @click="() => router.push({ name: 'detail-task', params:{ id: task._id }})">
-                <input type="checkbox" @input="event => editStatusTask(event.target.value)">
-                <p>{{ task.title }}</p>
+            <div class="tasksList">
+                <div class="task" v-for="task in tasks" :key="task._id"  @click="() => router.push({ name: 'detail-task', params:{ id: task._id }})">
+                    <input type="checkbox" @input="event => editStatusTask(event.target.value)">
+                    <p>{{ task.title }}</p>
+                </div>
             </div>
         </div>
 
-        <div class="tasksList">
+        <div>
             <h2>Tasks completed - {{ tasksCompleted.length }}</h2>
 
-            <div v-for="task in tasksCompleted" :key="task._id"  @click="() => router.push({ name: 'detail-task', params:{ id: task._id }})">
-                <input type="checkbox" @input="event => editStatusTask(event.target.value)">
-                <p >{{ task.title }}</p>
+            <div class="tasksList">
+                <div class="task"  v-for="task in tasksCompleted" :key="task._id"  @click="() => router.push({ name: 'detail-task', params:{ id: task._id }})">
+                    <input type="checkbox" @input="event => editStatusTask(event.target.value)" checked>
+                    <s>{{ task.title }}</s>
+                </div>
             </div>
         </div>
-        <add-list-component class="addListComponent"></add-list-component>
+        <addEditTask v-if="displayModalAddTask" @addList="displayModalAddList = false"></addEditTask>
+        <q-btn class="addList" @click="() => router.push({ name: 'add-edit-task', params:{ id: false }})"><q-icon name="add"></q-icon></q-btn>
     </div>
 </template>
 
@@ -44,13 +49,48 @@ function editStatusTask (event) {
 }
 </script>
 
-<style>
-.addListComponent{
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    background-color: rgba(0, 0, 0, 0.25);
+<style scoped>
+.addList {
+    position: fixed;
+    left: 50%;
+    bottom: 30px;
+    transform: translate(-50%);
+}
+
+.addList:before {
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  transform: translate(8px, -2px);
+  background: linear-gradient(125.54deg, #613973 -0.39%, #BB46E4 100%);
+}
+.addList i{
+  color: white;
+  font-size: 3.215em !important;
+}
+
+.tasksList{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 35px;
+}
+
+.task {
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    gap: 20px;
+    width: 80%;
+    background: #F2F2F2;
+    padding: 10px;
+    border-radius: 10px;
+}
+.task input {
+    height: 15px;
+}
+.task p {
+    margin: unset;
 }
 </style>
