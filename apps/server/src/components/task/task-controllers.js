@@ -25,7 +25,7 @@ export const createTask = async (ctx) => {
   try {
     const schema = joi.object({
       title: joi.string().required(),
-      description: joi.string(),
+      description: joi.string().allow(null, ''),
       state: joi.boolean(),
       list: joi.string().required()
     })
@@ -46,7 +46,7 @@ export const updateTask = async (ctx) => {
 
     const schema = joi.object({
       title: joi.string(),
-      description: joi.string(),
+      description: joi.string().allow(null, ''),
       state: joi.boolean(),
       list: joi.string()
     })

@@ -36,7 +36,7 @@
           <div v-if="tasks.length > 0" class="seeMore">
               Voir la liste complète
           </div>
-          <div v-else class="seeMore" @click="() => router.push({ name: 'add-edit-task', params:{ id: false }})">
+          <div v-else class="seeMore" @click="() => router.push({ name: 'add-edit-task', params:{ id: 0, idList: id }})">
               Ajouter une tâche
           </div>
         </div>

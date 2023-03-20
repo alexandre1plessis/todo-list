@@ -1,13 +1,16 @@
 <template>
+  <div>
+    <a  @click="goBack()">Retour</a>
+  </div>
     <div>
         <h1>List name</h1>
         <div class="tasksList">
-            <h2>Tasks - {{ tasks.length }}</h2>
+            <h2>Tasks - {{ tasksIncompleted.length }}</h2>
 
-            <div v-for="task in tasks" :key="task._id"  @click="() => router.push({ name: 'detail-task', params:{ id: task._id }})">
+            <div v-for="task in tasksIncompleted" :key="task._id">
               <div v-if="!task.state">
-                <input type="checkbox">
-                <p>{{ task.title }}</p>
+                <input type="checkbox" :id="task._id" v-model="task.state" @change="editStatusTask(task)">
+                <label :for="task._id" @click="() => router.push({ name: 'detail-task', params:{ id: task._id }})">{{ task.title }}</label>
               </div>
             </div>
         </div>
@@ -15,12 +18,11 @@
         <div class="tasksList">
             <h2>Tasks completed - {{ tasksCompleted.length }}</h2>
 
-            <div v-for="task in tasksCompleted" :key="task._id"  @click="() => router.push({ name: 'detail-task', params:{ id: task._id }})">
-                <input type="checkbox" @input="event => editStatusTask(event.target.value)">
-                <p >{{ task.title }}</p>
+            <div v-for="task in tasksCompleted" :key="task._id">
+                <input type="checkbox" :id="task._id" v-model="task.state" @change="editStatusTask(task)">
+                <label :for="task._id" @click="() => router.push({ name: 'detail-task', params:{ id: task._id }})">{{ task.title }}</label>
             </div>
         </div>
-        <add-list-component class="addListComponent"></add-list-component>
     </div>
 </template>
 
@@ -32,20 +34,26 @@ import { useRoute, useRouter } from 'vue-router'
 const route = useRoute()
 const router = useRouter()
 const listStore = useListStore()
-const tasks = computed(() => listStore.tasks)
-const tasksIncompleted = []
-const tasksCompleted = []
+const tasksIncompleted = computed(() => listStore.tasksI)
+const tasksCompleted = computed(() => listStore.tasksC)
 
 const id = computed(() => route.params.id)
 
 onMounted(async () => {
   const id = computed(() => route.params.id)
   await listStore.getLists()
-  await listStore.getTasks(id.value)
+  await listStore.getTasksIncomplet(id.value)
+  await listStore.getTasksComplete(id.value)
 })
 
-function editStatusTask (event) {
-  console.log(id)
+async function editStatusTask (task) {
+  await listStore.updateTask(task)
+  await listStore.getTasksIncomplet(id.value)
+  await listStore.getTasksComplete(id.value)
+}
+
+function goBack () {
+  this.router.go(-1)
 }
 </script>
 
