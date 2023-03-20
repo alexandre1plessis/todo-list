@@ -10,7 +10,7 @@
         </fieldset>
 
         <div class="modalButtons">
-            <q-btn label="Annuler" @click="() => {displayModal = false}"></q-btn>
+            <q-btn label="Annuler" @click="closeModal()"></q-btn>
             <q-btn label="Créer" @click="save()" class="createBtn"></q-btn>
         </div>
     </div>
@@ -18,7 +18,13 @@
 </template>
 
 <script setup>
+// defineEmits(['addList'])
+const emit = defineEmits(['addList'])
 
+function closeModal () {
+  console.log('emit')
+  emit('addList')
+}
 </script>
 
 <style scoped>

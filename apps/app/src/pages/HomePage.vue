@@ -13,12 +13,12 @@
     </div>
 
     <footer>
-      <q-btn @click="() => {displayModal = true}"><q-icon name="list"></q-icon></q-btn>
-      <q-btn class="addList" @click="() => {displayModal = true}"><q-icon name="add"></q-icon></q-btn>
-      <q-btn @click="() => {displayModal = true}"><q-icon name="person"></q-icon></q-btn>
+      <q-btn @click="() => {displayModalListTab  = true}"><q-icon name="list"></q-icon></q-btn>
+      <q-btn class="addList" @click="() => {displayModalAddList = true}"><q-icon name="add"></q-icon></q-btn>
+      <q-btn><q-icon name="person"></q-icon></q-btn>
     </footer>
 
-    <addListComponent v-if="displayModal"></addListComponent>
+    <addListComponent v-if="displayModalAddList" @addList="displayModalAddList = false"></addListComponent>
 
   </div>
 
@@ -33,7 +33,20 @@ import { onMounted, computed, ref } from 'vue'
 // const titre = ref()
 const listStore = useListStore()
 const lists = computed(() => listStore.lists)
-const displayModal = ref(false)
+// let displayModalTabList = ref(false)
+const displayModalAddList = ref(false)
+
+// function closeModal (event) {
+//   console.log(event)
+//   switch (event) {
+//     case event === 'addList':
+//       displayModalAddList.value = false
+//       break
+//     // case event === 'tabList':
+//     // displayModalTabList = false;
+//     //   break;
+//   }
+// }
 
 onMounted(async () => {
   await listStore.getLists()
