@@ -33,20 +33,7 @@ import { onMounted, computed, ref } from 'vue'
 // const titre = ref()
 const listStore = useListStore()
 const lists = computed(() => listStore.lists)
-// let displayModalTabList = ref(false)
 const displayModalAddList = ref(false)
-
-// function closeModal (event) {
-//   console.log(event)
-//   switch (event) {
-//     case event === 'addList':
-//       displayModalAddList.value = false
-//       break
-//     // case event === 'tabList':
-//     // displayModalTabList = false;
-//     //   break;
-//   }
-// }
 
 onMounted(async () => {
   await listStore.getLists()
@@ -61,12 +48,13 @@ onMounted(async () => {
 // }
 
 </script>
+
 <style scoped>
 .listCards{
   display: flex;
   flex-direction: column;
   gap: 30px;
-  width: 100vw;
+  width: 100%;
   padding: 20px;
 }
 
@@ -77,6 +65,7 @@ footer{
   width: 100%;
   justify-content: space-around;
   padding: 10px;
+  height: 55px;
   background-color: white;
   box-shadow: -5px 0 5px black;
 }

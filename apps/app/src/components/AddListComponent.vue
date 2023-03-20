@@ -30,11 +30,11 @@ function closeModal () {
 <style scoped>
 
 .addListComponent{
-    position: absolute;
+    position: fixed;
     top: 0;
     left: 0;
     width: 100vw;
-    height: 100vh;
+    height: calc( 100vh - 55px);
     background-color: rgba(0, 0, 0, 0.25);
 }
 
@@ -70,5 +70,17 @@ function closeModal () {
     padding: 10px 30px;
     background: #613973;
     color: white
+}
+
+fieldset {
+  border: none;
+  padding-bottom: 30px;
+}
+legend {
+  font-size: 16px;
+  font-weight: bold;
+}
+fieldset input {
+    width: 100%;
 }
 </style>

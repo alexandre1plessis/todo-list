@@ -4,25 +4,27 @@
   </div>
     <div>
         <h1>List name</h1>
-        <div class="tasksList">
-            <h2>Tasks - {{ tasksIncompleted.length }}</h2>
 
+      <h2>Tasks - {{ tasksIncompleted.length }}</h2>
+      <div class="tasksList">
             <div v-for="task in tasksIncompleted" :key="task._id">
-              <div v-if="!task.state">
+                <input type="checkbox" :id="task._id" v-model="task.state" @change="editStatusTask(task)">
+                <label :for="task._id" @click="() => router.push({ name: 'detail-task', params:{ id: task._id }})">{{ task.title }}</label>
+            </div>
+      </div>
+
+        <div>
+            <h2>Tasks completed - {{ tasksCompleted.length }}</h2>
+
+            <div class="tasksList">
+              <div v-for="task in tasksCompleted" :key="task._id">
                 <input type="checkbox" :id="task._id" v-model="task.state" @change="editStatusTask(task)">
                 <label :for="task._id" @click="() => router.push({ name: 'detail-task', params:{ id: task._id }})">{{ task.title }}</label>
               </div>
             </div>
         </div>
-
-        <div class="tasksList">
-            <h2>Tasks completed - {{ tasksCompleted.length }}</h2>
-
-            <div v-for="task in tasksCompleted" :key="task._id">
-                <input type="checkbox" :id="task._id" v-model="task.state" @change="editStatusTask(task)">
-                <label :for="task._id" @click="() => router.push({ name: 'detail-task', params:{ id: task._id }})">{{ task.title }}</label>
-            </div>
-        </div>
+        <addEditTask v-if="displayModalAddTask" @addList="displayModalAddList = false"></addEditTask>
+        <q-btn class="addList" @click="() => router.push({ name: 'add-edit-task', params:{ id: 0, idList: id }})"><q-icon name="add"></q-icon></q-btn>
     </div>
 </template>
 
@@ -57,13 +59,48 @@ function goBack () {
 }
 </script>
 
-<style>
-.addListComponent{
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    background-color: rgba(0, 0, 0, 0.25);
+<style scoped>
+.addList {
+    position: fixed;
+    left: 50%;
+    bottom: 30px;
+    transform: translate(-50%);
+}
+
+.addList:before {
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  transform: translate(8px, -2px);
+  background: linear-gradient(125.54deg, #613973 -0.39%, #BB46E4 100%);
+}
+.addList i{
+  color: white;
+  font-size: 3.215em !important;
+}
+
+.tasksList{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 35px;
+}
+
+.task {
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    gap: 20px;
+    width: 80%;
+    background: #F2F2F2;
+    padding: 10px;
+    border-radius: 10px;
+}
+.task input {
+    height: 15px;
+}
+.task p {
+    margin: unset;
 }
 </style>
