@@ -86,7 +86,6 @@ export const getTasksByListId = async (ctx) => {
 export const getCompletedTasksByListId = async (ctx) => {
   try {
     const tasks = await TaskModel.find({ list: ctx.params.id, state: true })
-    if(!tasks) throw new Error('List not found')
     ctx.ok(tasks)
   } catch (error) {
     ctx.badRequest({ message: error.message })
@@ -96,7 +95,6 @@ export const getCompletedTasksByListId = async (ctx) => {
 export const getUncompletedTasksByListId = async (ctx) => {
   try {
     const tasks = await TaskModel.find({ list: ctx.params.id, state: false })
-    if(!tasks) throw new Error('List not found')
     ctx.ok(tasks)
   } catch (error) {
     ctx.badRequest({ message: error.message })
