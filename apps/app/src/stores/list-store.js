@@ -4,7 +4,8 @@ import { Notify } from 'quasar'
 
 export const useListStore = defineStore('list', {
   state: () => ({
-    lists: []
+    lists: [],
+    tasks: []
   }),
 
   getters: {
@@ -39,6 +40,19 @@ export const useListStore = defineStore('list', {
       await api.put(`/tasks/${task._id}`, newTask)
         .then(Notify.create('La tache a été mit à jour '))
         .catch(error => Notify.create(`Error during update a task: ${error.message}`))
+    },
+
+    async getTasks (idList) {
+      if (this.lists.length === 0) {
+        this.lists = await this.getLists()
+      }
+      const currList = this.lists.find(l => l._id === idList)
+      if (currList) {
+        this.tasks = currList.tasks
+        console.log(this.tasks)
+      } else {
+        this.tasks = []
+      }
     }
   }
 })
