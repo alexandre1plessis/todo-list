@@ -1,7 +1,7 @@
 <template>
     <q-card flat bordered class="listCard">
       <q-card-section class="listCardHeader">
-            <div class="text-h3">{{ title }}</div>
+            <h2>{{ title }}</h2>
             <q-btn class="moreBtn" round flat icon="more_horiz">
               <q-menu cover auto-close>
                 <q-list>
@@ -22,18 +22,18 @@
         <div class="listCardContent">
             <slot name="default">
                 <p v-if="tasks.length == 0" >Cette liste ne contient aucune tâches ajoutez en une depuis la liste</p>
-                <ul v-else>
+                <div v-else >
                 <TaskComponant
                     v-for="task in tasks"
                     :key="task.id"
                     :task="task"
                 ></TaskComponant>
-                </ul>
+                </div>
             </slot>
         </div>
         <div>
           <hr class="listCardSeparator"/>
-          <div v-if="tasks.length > 0" class="seeMore">
+          <div v-if="tasks.length > 0" class="seeMore" @click="() => router.push({ name: 'list-view', params:{ id: id }})">
               Voir la liste complète
           </div>
           <div v-else class="seeMore" @click="() => router.push({ name: 'add-edit-task', params:{ id: 0, idList: id }})">
@@ -74,14 +74,16 @@ const router = useRouter()
     width: 100%;
     border-radius: 10px;
 }
+
 .listCardHeader{
     display: flex;
     justify-content: space-between;
     align-content: center;
     background-color: #F2F2F2;
-    padding: 15px 20px;
 }
+
 .moreBtn{
+  margin: auto;
     height: 20px;
 }
 .listCardContent{
@@ -105,4 +107,9 @@ const router = useRouter()
 .seeMore:hover{
     background-color: #f5f5f5;
 }
+
+h2{
+  margin-left: 1em;
+}
+
 </style>

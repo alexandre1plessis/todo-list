@@ -1,27 +1,30 @@
 <template>
-  <div>
-    <h1>Bonjour,<br>Tom Dupont ! 👋
-    </h1>
-    <div class="listCards">
-      <CardList
-        v-for="list in lists"
-        :key="list._id"
-        :id="list._id"
-        :title="list.title"
-        :tasks="list.tasks"
-      ></CardList>
-    </div>
-
-    <footer>
+    <main>
+      <div class="flex justify-between p-4">
+          <h2 class="mr-4">Dashboard</h2>
+          <q-avatar class="m" color="primary" text-color="white">T</q-avatar>
+      </div>
+        <h1>
+          <span class="block" style="line-height: 0.8em;">Bonjour</span>
+          <span class="block" style="line-height: 1em;">, Tom Dupont ! 👋</span>
+        </h1>
+        <div class="listCards">
+          <CardList
+            v-for="list in lists"
+            :key="list._id"
+            :id="list._id"
+            :title="list.title"
+            :tasks="list.tasks"
+          ></CardList>
+        </div>
+    </main>
+    <footer class="menu-bottom">
       <q-btn @click="() => {displayModalListTab  = true}"><q-icon name="list"></q-icon></q-btn>
       <q-btn class="addList" @click="() => {displayModalAddList = true}"><q-icon name="add"></q-icon></q-btn>
       <q-btn><q-icon name="person"></q-icon></q-btn>
     </footer>
 
     <addListComponent v-if="displayModalAddList" @addList="displayModalAddList = false"></addListComponent>
-
-  </div>
-
 </template>
 
 <script setup>
@@ -30,7 +33,6 @@ import CardList from 'components/CardList.vue'
 import { useListStore } from 'stores/list-store'
 import { onMounted, computed, ref } from 'vue'
 
-// const titre = ref()
 const listStore = useListStore()
 const lists = computed(() => listStore.lists)
 const displayModalAddList = ref(false)
@@ -38,14 +40,6 @@ const displayModalAddList = ref(false)
 onMounted(async () => {
   await listStore.getLists()
 })
-
-// function save () {
-//   if (titre.value) {
-//     listStore.addList(titre.value)
-//   }
-//   titre.value = ''
-//   AddList()
-// }
 
 </script>
 
@@ -82,6 +76,22 @@ footer button:before {
 }
 .addList i{
   color: white;
+}
+
+.m{
+  margin: 6px;
+}
+
+.block {
+  display: block;
+}
+
+.menu-bottom {
+  position: fixed;
+}
+
+main {
+  padding-bottom: 5em;
 }
 
 </style>

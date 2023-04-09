@@ -1,8 +1,5 @@
 <template>
-  <li>
-    <input type="checkbox" :id="task._id" v-model="isChecked" @change="saveChange()"/>
-    <label :for="task._id">{{ task.title }}</label>
-  </li>
+  <q-checkbox class="c" :label="task.title" v-model="isChecked"  @change="saveChange()" />
 </template>
 
 <script setup>
@@ -28,5 +25,9 @@ function saveChange () {
 </script>
 
 <style scoped>
+
+  .c {
+    width: 100%;
+  }
 
 </style>
