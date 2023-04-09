@@ -5,8 +5,8 @@
           <q-avatar class="m" color="primary" text-color="white">T</q-avatar>
       </div>
         <h1>
-          <span class="block" style="line-height: 0.8em;">Bonjour</span>
-          <span class="block" style="line-height: 1em;">, Tom Dupont ! 👋</span>
+          <span class="block" style="line-height: 0.8em;">Bonjour,</span>
+          <span class="block" style="line-height: 1em;"> Tom Dupont ! 👋</span>
         </h1>
         <div class="listCards">
           <CardList

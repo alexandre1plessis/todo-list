@@ -2,12 +2,11 @@
 <template>
   <div class="addListComponent">
     <div class="content">
-        <h4>Créer une nouvelle liste</h4>
+        <h3>Créer une nouvelle liste</h3>
 
-        <fieldset>
-            <legend>List name</legend>
-            <input v-model="titre" :placeholder="'Ex: Courses'">
-        </fieldset>
+        <div>
+            <q-input outlined v-model="titre" label="List name" />
+        </div>
 
         <div class="modalButtons">
             <q-btn label="Annuler" @click="closeModal()"></q-btn>
@@ -18,13 +17,22 @@
 </template>
 
 <script setup>
-// defineEmits(['addList'])
+import { useListStore } from 'stores/list-store'
+import { ref } from 'vue'
+
+const listStore = useListStore()
+const titre = ref()
 const emit = defineEmits(['addList'])
 
 function closeModal () {
-  console.log('emit')
   emit('addList')
 }
+
+async function save () {
+  const retour = await listStore.addList(titre.value)
+  if (retour) closeModal()
+}
+
 </script>
 
 <style scoped>
@@ -52,13 +60,9 @@ function closeModal () {
     left: 50%;
     transform: translate(-50%, -50%);
 }
-.close {
-    position: absolute;
-    top: 15px;
-    right: 20px;
-}
 
 .modalButtons {
+    margin-top: 0.5em;
     display: flex;
     justify-content: center;
     gap: 20px;

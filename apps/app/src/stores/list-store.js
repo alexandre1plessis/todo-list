@@ -31,11 +31,23 @@ export const useListStore = defineStore('list', {
     },
 
     async addList (title) {
+      if (typeof title === 'undefined') {
+        Notify.create('Le titre ne doit pas être vide')
+        return false
+      }
       const list = { title: title }
-      await api.post('/lists/', list)
-        .then(() => (Notify.create('La liste a été crée ')))
-        .catch(error => Notify.create(`Error during create a list: ${error.message}`))
+      const retour = await api.post('/lists/', list)
+        .then(() => {
+          Notify.create('La liste a été crée ')
+          return true
+        })
+        .catch(error => {
+          console.log(error)
+          Notify.create(`Error during create a list: ${error.response.data.message}`)
+          return false
+        })
       await this.getLists()
+      return retour
     },
 
     async updateTask (task) {

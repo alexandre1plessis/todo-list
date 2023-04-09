@@ -15,6 +15,14 @@ export default defineComponent({
     color: #333333;
   }
 
+  h1 {
+    font-size: 3em;
+    margin-left: 0.5em;
+    font-weight: 600;
+    display: flex;
+    flex-direction: column;
+  }
+
   h2 {
     margin : 2px;
     margin-left: 0.5em;
@@ -24,12 +32,9 @@ export default defineComponent({
     flex: auto;
   }
 
-  h1 {
-    font-size: 3em;
-    margin-left: 0.5em;
-    font-weight: 600;
-    display: flex;
-    flex-direction: column;
+  h3 {
+    font-size: 1.6em;
+    font-weight: 500;
+    text-align: center;
   }
-
 </style>
