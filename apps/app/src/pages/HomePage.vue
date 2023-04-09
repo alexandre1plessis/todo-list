@@ -2,7 +2,7 @@
     <main>
       <div class="flex justify-between p-4">
           <h2 class="mr-4">Dashboard</h2>
-          <q-avatar class="m" color="primary" text-color="white">T</q-avatar>
+          <q-avatar size="35px" class="m" color="primary" text-color="white">T</q-avatar>
       </div>
         <h1>
           <span class="block" style="line-height: 0.8em;">Bonjour,</span>

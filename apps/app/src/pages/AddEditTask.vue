@@ -1,30 +1,29 @@
 <template>
-    <div>
-        <h1>{{ pageType }} une tâche</h1>
+  <h1>{{ pageType }} une tâche</h1>
 
-        <form>
-          <div v-if="errors.length > 0">
-            <div v-for="(currError, index) in errors" :key="index">
-              <p>{{ currError }}</p>
-            </div>
-          </div>
-          <fieldset>
-              <legend>Task</legend>
-              <input type="text" v-model="task.title" placeholder="Describe your task" required>
-          </fieldset>
-
-          <fieldset>
-              <legend>description</legend>
-              <textarea type="text" v-model="task.description" placeholder="Describe your task..."></textarea>
-          </fieldset>
-        </form>
-
-        <div class="buttons">
-            <q-btn label="Annuler" @click="() => router.push('/')"></q-btn>
-            <q-btn type="submit" v-if="pageType === 'Modifier'" label="Modifier" @click="save(pageType)"></q-btn>
-            <q-btn type="submit" v-else label="Créer" @click="save(pageType)"></q-btn>
-        </div>
+  <form>
+    <div v-if="errors.length > 0">
+      <div v-for="(currError, index) in errors" :key="index">
+        <p>{{ currError }}</p>
+      </div>
     </div>
+    <fieldset>
+        <legend>Task</legend>
+        <input type="text" v-model="task.title" placeholder="Describe your task" required>
+    </fieldset>
+
+    <fieldset>
+        <legend>description</legend>
+        <textarea type="text" v-model="task.description" placeholder="Describe your task..."></textarea>
+    </fieldset>
+  </form>
+
+  <div class="buttons">
+      <q-btn label="Annuler" @click="() => router.push('/')"></q-btn>
+      <q-btn type="submit" v-if="pageType === 'Modifier'" label="Modifier" @click="save(pageType)"></q-btn>
+      <q-btn type="submit" v-else label="Créer" @click="save(pageType)"></q-btn>
+  </div>
+
 </template>
 
 <script setup>

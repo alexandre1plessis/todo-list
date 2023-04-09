@@ -5,6 +5,7 @@ import { Notify } from 'quasar'
 export const useListStore = defineStore('list', {
   state: () => ({
     lists: [],
+    list: { id: '', name: '' },
     tasks: [],
     tasksI: [],
     tasksC: [],
@@ -28,6 +29,15 @@ export const useListStore = defineStore('list', {
           })
           .catch(error => Notify.create(`Error during loading tasks: ${error.message}`))
       }
+    },
+
+    async getList (id) {
+      const list = await api.get('/lists/' + id)
+        .then(rep => {
+          return { id: rep.data._id, name: rep.data.title }
+        })
+        .catch(error => Notify.create(`Error during loading list: ${error.message}`))
+      this.list = list
     },
 
     async addList (title) {

@@ -1,10 +1,18 @@
 <template>
-  <div>
-    <a  @click="goBack()">Retour</a>
+  <div class="flex justify-between p-4">
+    <div class="row items-center p-4">
+      <q-btn icon="chevron_left" class="button-retour" @click="goBack()"/>
+      <h2 >{{nameList}}</h2>
+    </div>
+    <q-btn flat icon="more_horiz" >
+      <q-menu auto-close anchor="bottom start" self="top left">
+        <q-item clickable @click="displayModalSuprr = true">
+          <q-item-section><span class="red">Supprimer</span></q-item-section>
+        </q-item>
+      </q-menu>
+    </q-btn>
   </div>
     <div>
-        <h1>List name</h1>
-
       <h2>Tasks - {{ tasksIncompleted.length }}</h2>
       <div class="tasksList">
             <div v-for="task in tasksIncompleted" :key="task._id">
@@ -26,18 +34,22 @@
         <addEditTask v-if="displayModalAddTask" @addList="displayModalAddList = false"></addEditTask>
         <q-btn class="addList" @click="() => router.push({ name: 'add-edit-task', params:{ id: 0, idList: id }})"><q-icon name="add"></q-icon></q-btn>
     </div>
+  <modal-supression v-if="displayModalSuprr" :id="id" @closeModal="goBack()" ></modal-supression>
 </template>
 
 <script setup>
 import { useListStore } from 'src/stores/list-store'
-import { onMounted, computed } from 'vue'
+import { onMounted, computed, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
+import ModalSupression from 'components/ModalSupression.vue'
 
 const route = useRoute()
 const router = useRouter()
 const listStore = useListStore()
 const tasksIncompleted = computed(() => listStore.tasksI)
 const tasksCompleted = computed(() => listStore.tasksC)
+const nameList = computed(() => listStore.list.name)
+const displayModalSuprr = ref(false)
 
 const id = computed(() => route.params.id)
 
@@ -46,6 +58,7 @@ onMounted(async () => {
   await listStore.getLists()
   await listStore.getTasksIncomplet(id.value)
   await listStore.getTasksComplete(id.value)
+  await listStore.getList(id.value)
 })
 
 async function editStatusTask (task) {
@@ -102,5 +115,22 @@ function goBack () {
 }
 .task p {
     margin: unset;
+}
+
+.m{
+  margin: 6px;
+}
+
+.button-retour {
+  display: inline-block;
+  width: auto;
+  height: auto;
+  min-height: 0;
+  padding: 0.2em;
+  margin-left: 10px;
+  background-color: #F2F2F2;
+}
+.red {
+  color: #C10707;
 }
 </style>
