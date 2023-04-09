@@ -18,6 +18,9 @@ export const useListStore = defineStore('list', {
 
   actions: {
     async getLists () {
+      this.tasks = []
+      this.tasksI = []
+      this.tasksC = []
       const lists = await api.get('/lists')
         .then()
         .catch(error => Notify.create(`Error during loading lists: ${error.message}`))

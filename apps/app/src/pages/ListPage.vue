@@ -1,5 +1,5 @@
 <template>
-  <div class="flex justify-between p-4">
+  <header class="flex justify-between p-4">
     <div class="row items-center p-4">
       <q-btn icon="chevron_left" class="button-retour" @click="goBack()"/>
       <h2 >{{nameList}}</h2>
@@ -11,30 +11,32 @@
         </q-item>
       </q-menu>
     </q-btn>
-  </div>
-    <div>
-      <h2>Tasks - {{ tasksIncompleted.length }}</h2>
+  </header>
+  <main>
+    <div v-if="tasksIncompleted.length !== 0">
+      <h3>Tasks - {{ tasksIncompleted.length }}</h3>
       <div class="tasksList">
-            <div v-for="task in tasksIncompleted" :key="task._id">
-                <input type="checkbox" :id="task._id" v-model="task.state" @change="editStatusTask(task)">
-                <label :for="task._id" @click="() => router.push({ name: 'detail-task', params:{ id: task._id }})">{{ task.title }}</label>
-            </div>
-      </div>
-
-        <div>
-            <h2>Tasks completed - {{ tasksCompleted.length }}</h2>
-
-            <div class="tasksList">
-              <div v-for="task in tasksCompleted" :key="task._id">
-                <input type="checkbox" :id="task._id" v-model="task.state" @change="editStatusTask(task)">
-                <label :for="task._id" @click="() => router.push({ name: 'detail-task', params:{ id: task._id }})">{{ task.title }}</label>
-              </div>
-            </div>
+        <div class="content-checbox" v-for="task in tasksIncompleted" :key="task._id">
+          <q-checkbox v-model="task.state" :label="task.title" @change="editStatusTask(task)" />
         </div>
-        <addEditTask v-if="displayModalAddTask" @addList="displayModalAddList = false"></addEditTask>
-        <q-btn class="addList" @click="() => router.push({ name: 'add-edit-task', params:{ id: 0, idList: id }})"><q-icon name="add"></q-icon></q-btn>
+      </div>
     </div>
-  <modal-supression v-if="displayModalSuprr" :id="id" @closeModal="goBack()" ></modal-supression>
+
+    <div v-if="tasksCompleted.length !== 0">
+      <h3>Tasks completed - {{ tasksCompleted.length }}</h3>
+      <div class="tasksList">
+        <div class="content-checbox" v-for="task in tasksCompleted" :key="task._id" >
+          <q-checkbox v-model="task.state" :label="task.title" @change="editStatusTask(task)" />
+        </div>
+      </div>
+    </div>
+<!--      <addEditTask v-if="displayModalAddTask" @addList="displayModalAddList = false"></addEditTask>-->
+      <modal-supression v-if="displayModalSuprr" :id="id" @closeModal="goBack()" ></modal-supression>
+  </main>
+  <footer>
+    <q-btn class="addList" @click="() => router.push({ name: 'add-edit-task', params:{ id: 0, idList: id }})"><q-icon name="add"></q-icon></q-btn>
+  </footer>
+
 </template>
 
 <script setup>
@@ -62,9 +64,12 @@ onMounted(async () => {
 })
 
 async function editStatusTask (task) {
-  await listStore.updateTask(task)
+  console.log('je passe')
+  await listStore.updateTask(task.value)
   await listStore.getTasksIncomplet(id.value)
   await listStore.getTasksComplete(id.value)
+  tasksIncompleted.value = computed(() => listStore.tasksI)
+  tasksCompleted.value = computed(() => listStore.tasksC)
 }
 
 function goBack () {
@@ -73,6 +78,14 @@ function goBack () {
 </script>
 
 <style scoped>
+main{
+  text-align: left;
+}
+h3 {
+  text-align: left;
+  margin-bottom: 1em;
+  margin-left: 0.5em;
+}
 .addList {
     position: fixed;
     left: 50%;
@@ -99,28 +112,12 @@ function goBack () {
     gap: 15px;
     margin-bottom: 35px;
 }
-
-.task {
-    display: flex;
-    justify-content: left;
-    align-items: center;
-    gap: 20px;
-    width: 80%;
-    background: #F2F2F2;
-    padding: 10px;
-    border-radius: 10px;
-}
 .task input {
     height: 15px;
 }
 .task p {
     margin: unset;
 }
-
-.m{
-  margin: 6px;
-}
-
 .button-retour {
   display: inline-block;
   width: auto;
@@ -132,5 +129,10 @@ function goBack () {
 }
 .red {
   color: #C10707;
+}
+.content-checbox {
+  width: 90%;
+  background-color: #F2F2F2;
+  border-radius: 10px;
 }
 </style>
