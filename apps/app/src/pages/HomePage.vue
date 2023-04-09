@@ -15,6 +15,7 @@
             :id="list._id"
             :title="list.title"
             :tasks="list.tasks"
+            @openModalSuppr="handleOpenModalSuppr"
           ></CardList>
         </div>
     </main>
@@ -25,6 +26,7 @@
     </footer>
 
     <addListComponent v-if="displayModalAddList" @addList="displayModalAddList = false"></addListComponent>
+    <modal-supression v-if="displayModalSuprr" :id="idSuppr" @closeModal="displayModalSuprr = false" ></modal-supression>
 </template>
 
 <script setup>
@@ -32,14 +34,23 @@ import addListComponent from 'components/AddListComponent.vue'
 import CardList from 'components/CardList.vue'
 import { useListStore } from 'stores/list-store'
 import { onMounted, computed, ref } from 'vue'
+import ModalSupression from 'components/ModalSupression.vue'
 
 const listStore = useListStore()
 const lists = computed(() => listStore.lists)
 const displayModalAddList = ref(false)
+const displayModalSuprr = ref(false)
+const idSuppr = ref('')
 
 onMounted(async () => {
   await listStore.getLists()
 })
+
+function handleOpenModalSuppr (id) {
+  displayModalSuprr.value = true
+  idSuppr.value = id
+  lists.value = listStore.lists
+}
 
 </script>
 

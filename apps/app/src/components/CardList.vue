@@ -2,18 +2,15 @@
     <q-card flat bordered class="listCard">
       <q-card-section class="listCardHeader">
             <h2>{{ title }}</h2>
-            <q-btn class="moreBtn" round flat icon="more_horiz">
-              <q-menu cover auto-close>
-                <q-list>
-                  <q-item clickable>
-                    <!-- TODO: Modal suppression   -->
-                    <q-item-section>Supprimer list</q-item-section>
-                  </q-item>
-                    <!--  TODO: modifier chemin-->
+            <q-btn  round flat icon="more_horiz" >
+              <q-menu auto-close anchor="bottom start" self="top left">
                   <q-item clickable @click="() => router.push({ name: 'list-view', params:{ id: id }})">
-                    <q-item-section>Modifier list</q-item-section>
+                    <q-item-section>Modifier</q-item-section>
                   </q-item>
-                </q-list>
+                  <q-item clickable @click="$emit('openModalSuppr',id)">
+                    <!-- TODO: Modal suppression   -->
+                    <q-item-section><span class="red">Supprimer</span></q-item-section>
+                  </q-item>
               </q-menu>
             </q-btn>
       </q-card-section>
@@ -67,9 +64,6 @@ const router = useRouter()
 </script>
 
 <style scoped>
-.q-card__section--vert{
-    padding: 0;
-}
 .listCard{
     width: 100%;
     border-radius: 10px;
@@ -82,10 +76,6 @@ const router = useRouter()
     background-color: #F2F2F2;
 }
 
-.moreBtn{
-  margin: auto;
-    height: 20px;
-}
 .listCardContent{
     padding: 20px;
 }
@@ -112,4 +102,7 @@ h2{
   margin-left: 1em;
 }
 
+.red {
+  color: #C10707;
+}
 </style>

@@ -50,6 +50,13 @@ export const useListStore = defineStore('list', {
       return retour
     },
 
+    async deleteList (id) {
+      await api.delete('/lists/' + id)
+        .then(() => (Notify.create('La liste a été supprimer')))
+        .catch(error => (Notify.create(`Error during create a list: ${error.response.data.message}`)))
+      await this.getLists()
+    },
+
     async updateTask (task) {
       const newTask = { title: task.title, description: task.description, state: task.state, list: task.list }
       await api.put(`/tasks/${task._id}`, newTask)
