@@ -1,28 +1,25 @@
 <template>
-  <h1>{{ pageType }} une tâche</h1>
-
-  <form>
-    <div v-if="errors.length > 0">
-      <div v-for="(currError, index) in errors" :key="index">
-        <p>{{ currError }}</p>
+  <header class="flex justify-between p-4">
+    <q-btn  icon="chevron_left" class="button-retour" @click="goBack()"/>
+  </header>
+  <main>
+    <h2>{{ pageType }} une tâche</h2>
+    <form>
+      <div v-if="errors.length > 0">
+        <div v-for="(currError, index) in errors" :key="index">
+          <p>{{ currError }}</p>
+        </div>
       </div>
-    </div>
-    <fieldset>
-        <legend>Task</legend>
-        <input type="text" v-model="task.title" placeholder="Describe your task" required>
-    </fieldset>
-
-    <fieldset>
-        <legend>description</legend>
-        <textarea type="text" v-model="task.description" placeholder="Describe your task..."></textarea>
-    </fieldset>
-  </form>
-
-  <div class="buttons">
-      <q-btn label="Annuler" @click="() => router.push('/')"></q-btn>
-      <q-btn type="submit" v-if="pageType === 'Modifier'" label="Modifier" @click="save(pageType)"></q-btn>
-      <q-btn type="submit" v-else label="Créer" @click="save(pageType)"></q-btn>
-  </div>
+      <h3>Task</h3>
+      <q-input class="width q-mx-auto" outlined v-model="task.title" placeholder="Describe your task" required/>
+      <h3>Description</h3>
+      <q-input class="width q-mx-auto" v-model="task.description" filled type="textarea" placeholder="Describe your task..."/>
+    </form>
+  </main>
+  <footer  class="text-center">
+      <q-btn class="btn q-mx-auto" type="submit" v-if="pageType === 'Modifier'" label="Modifier" @click="save(pageType)"></q-btn>
+      <q-btn class="btn q-mx-auto" type="submit" v-else label="Créer" @click="save(pageType)"></q-btn>
+  </footer>
 
 </template>
 
@@ -38,7 +35,7 @@ const listStore = useListStore()
 const pageType = ref('')
 const errors = ref([])
 
-if (route.params.id > 0) {
+if (route.params.id !== '0') {
   pageType.value = 'Modifier'
 } else {
   pageType.value = 'Créer'
@@ -83,15 +80,51 @@ async function save (pageType) {
     }
   }
 }
+
+function goBack () {
+  router.go(-1)
+}
 </script>
 
 <style scoped>
-  fieldset {
-    border: none;
-    padding-bottom: 30px;
-  }
-  legend {
-    font-size: 16px;
-    font-weight: bold;
-  }
+.button-retour {
+  display: inline-block;
+  width: auto;
+  height: auto;
+  min-height: 0;
+  padding: 0.2em;
+  margin-left: 10px;
+  background-color: #F2F2F2;
+}
+header > h5 {
+  cursor: pointer;
+}
+main{
+  text-align: left;
+}
+h3 {
+  text-align: left;
+  margin-bottom: 1em;
+  margin-left: 0.5em;
+}
+h2 {
+  width: 100%;
+  font-weight: 400;
+}
+.width {
+  width: 90%;
+}
+.btn {
+  width: 90%;
+  color: #FFFFFF;
+  background: #613973;
+}
+footer {
+  width: 100%;
+  position: fixed;
+  bottom: 2em;
+}
+header {
+  margin-top: 1em;
+}
 </style>

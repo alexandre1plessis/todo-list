@@ -1,10 +1,12 @@
 <template>
-  <q-checkbox class="c" :label="task.title" v-model="isChecked"  @change="saveChange()" />
+  <div>
+   <q-checkbox color="green"  class="c" :label="task.title" v-model="task.state" @update:model-value="(value, evt) => saveChange()"/>
+  </div>
 </template>
 
 <script setup>
-import { ref } from 'vue'
 import { useListStore } from 'stores/list-store'
+import { ref, defineProps } from 'vue'
 
 const props = defineProps({
   task: {
@@ -12,13 +14,10 @@ const props = defineProps({
     default: () => { return { _id: 0, title: '', state: false } }
   }
 })
-
-const listStore = useListStore()
 const task = ref(props.task)
-const isChecked = ref(props.task.state)
+const listStore = useListStore()
 
 function saveChange () {
-  task.value.state = isChecked.value
   listStore.updateTask(task.value)
 }
 

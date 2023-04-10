@@ -37,4 +37,8 @@ export default defineComponent({
     font-weight: 500;
     text-align: center;
   }
+  h5 {
+    font-size: 1.6em;
+    color: #646464;
+  }
 </style>

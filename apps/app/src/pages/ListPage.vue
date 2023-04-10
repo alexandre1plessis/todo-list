@@ -16,8 +16,9 @@
     <div v-if="tasksIncompleted.length !== 0">
       <h3>Tasks - {{ tasksIncompleted.length }}</h3>
       <div class="tasksList">
-        <div class="content-checbox" v-for="task in tasksIncompleted" :key="task._id">
-          <q-checkbox v-model="task.state" :label="task.title" @change="editStatusTask(task)" />
+        <div class="content-checbox flex justify-between items-center" v-for="task in tasksIncompleted" :key="task._id">
+          <q-checkbox v-model="task.state" :label="task.title" @update:model-value="(value, evt) => editStatusTask(task)" />
+          <q-icon name="edit" class="icon" @click="() => router.push({ name: 'add-edit-task', params:{ id: task._id, idList: id }})"/>
         </div>
       </div>
     </div>
@@ -25,16 +26,16 @@
     <div v-if="tasksCompleted.length !== 0">
       <h3>Tasks completed - {{ tasksCompleted.length }}</h3>
       <div class="tasksList">
-        <div class="content-checbox" v-for="task in tasksCompleted" :key="task._id" >
-          <q-checkbox v-model="task.state" :label="task.title" @change="editStatusTask(task)" />
+        <div class="content-checbox flex justify-between items-center" v-for="task in tasksCompleted" :key="task._id" >
+          <q-checkbox v-model="task.state" :label="task.title" color="green" @update:model-value="(value, evt) => editStatusTask(task)" />
+          <q-icon name="edit" class="icon" @click="() => router.push({ name: 'add-edit-task', params:{ id: task._id, idList: id }})"/>
         </div>
       </div>
     </div>
-<!--      <addEditTask v-if="displayModalAddTask" @addList="displayModalAddList = false"></addEditTask>-->
       <modal-supression v-if="displayModalSuprr" :id="id" @closeModal="goBack()" ></modal-supression>
   </main>
   <footer>
-    <q-btn class="addList" @click="() => router.push({ name: 'add-edit-task', params:{ id: 0, idList: id }})"><q-icon name="add"></q-icon></q-btn>
+    <q-btn class="addList" @click="() => router.push({ name: 'add-edit-task', params:{ id: '0', idList: id }})"><q-icon name="add"></q-icon></q-btn>
   </footer>
 
 </template>
@@ -64,8 +65,7 @@ onMounted(async () => {
 })
 
 async function editStatusTask (task) {
-  console.log('je passe')
-  await listStore.updateTask(task.value)
+  await listStore.updateTask(task)
   await listStore.getTasksIncomplet(id.value)
   await listStore.getTasksComplete(id.value)
   tasksIncompleted.value = computed(() => listStore.tasksI)
@@ -134,5 +134,10 @@ h3 {
   width: 90%;
   background-color: #F2F2F2;
   border-radius: 10px;
+}
+.icon {
+  color: #797979;
+  font-size: 1.5em;
+  cursor: pointer;
 }
 </style>
