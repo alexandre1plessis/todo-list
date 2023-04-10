@@ -18,7 +18,7 @@
       <div class="tasksList">
         <div class="content-checbox flex justify-between items-center" v-for="task in tasksIncompleted" :key="task._id">
           <q-checkbox v-model="task.state" :label="task.title" @update:model-value="(value, evt) => editStatusTask(task)" />
-          <q-icon name="edit" class="icon" @click="() => router.push({ name: 'add-edit-task', params:{ id: task._id, idList: id }})"/>
+          <q-icon name="visibility" class="icon" @click="() => router.push({ name: 'view-task', params:{ id: task._id, idList: id }})"/>
         </div>
       </div>
     </div>
@@ -28,7 +28,7 @@
       <div class="tasksList">
         <div class="content-checbox flex justify-between items-center" v-for="task in tasksCompleted" :key="task._id" >
           <q-checkbox v-model="task.state" :label="task.title" color="green" @update:model-value="(value, evt) => editStatusTask(task)" />
-          <q-icon name="edit" class="icon" @click="() => router.push({ name: 'add-edit-task', params:{ id: task._id, idList: id }})"/>
+          <q-icon name="visibility" class="icon" @click="() => router.push({ name: 'view-task', params:{ id: task._id, idList: id }})"/>
         </div>
       </div>
     </div>
@@ -139,5 +139,6 @@ h3 {
   color: #797979;
   font-size: 1.5em;
   cursor: pointer;
+  margin-right: 0.5em;
 }
 </style>

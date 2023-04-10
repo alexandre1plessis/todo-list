@@ -116,6 +116,12 @@ export const useListStore = defineStore('list', {
         await this.getTasks(idList)
       }
       this.tasksC = this.tasks.filter(t => t.state === true)
+    },
+
+    async deleteTask (id) {
+      await api.delete('/tasks/' + id)
+        .then(() => (Notify.create('La tâche a été supprimer')))
+        .catch(error => (Notify.create(`Error during delete a task: ${error.response.data.message}`)))
     }
   }
 })

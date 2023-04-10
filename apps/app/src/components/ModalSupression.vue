@@ -39,12 +39,16 @@ function closeModalSuppr () {
 }
 
 async function del (id) {
-  await listStore.deleteList(id)
+  if (type.value === 'liste') {
+    await listStore.deleteList(id)
+  } else {
+    await listStore.deleteTask(id)
+  }
   closeModalSuppr()
 }
 </script>
 <style scoped>
-.modal{
+.modal {
   position: fixed;
   top: 0;
   left: 0;

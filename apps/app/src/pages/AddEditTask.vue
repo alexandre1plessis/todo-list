@@ -74,7 +74,6 @@ async function save (pageType) {
     try {
       await listStore.updateTask(task.value)
       Notify.create('Tache modifier')
-      this.router.go('/')
     } catch (e) {
       errors.value.push(e.message)
     }
