@@ -29,6 +29,7 @@
     </div>
   </main>
   <modal-supression v-if="displayModalSuprr" :id="task._id" :type="'tâche'" @closeModal="suprr" ></modal-supression>
+  <move-task-component v-if="dispalyModalDeplacer" :id="task._id" @closeModal="dispalyModalDeplacer = false"></move-task-component>
 </template>
 
 <script setup>
@@ -36,6 +37,7 @@ import { onMounted, computed, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useListStore } from 'stores/list-store'
 import ModalSupression from 'components/ModalSupression.vue'
+import MoveTaskComponent from 'components/MoveTaskComponent.vue'
 
 const route = useRoute()
 const router = useRouter()
