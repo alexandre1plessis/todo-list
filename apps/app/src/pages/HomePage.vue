@@ -1,4 +1,5 @@
 <template>
+    <MenuComponents v-if="menuOpen" @closeModal="menuOpen = false"></MenuComponents>
     <main>
       <div class="flex justify-between p-4">
           <h2 class="mr-4">Dashboard</h2>
@@ -20,7 +21,7 @@
         </div>
     </main>
     <footer class="menu-bottom">
-      <q-btn @click="() => {displayModalListTab  = true}"><q-icon name="list"></q-icon></q-btn>
+      <q-btn @click="() => {menuOpen  = true}"><q-icon name="list"></q-icon></q-btn>
       <q-btn class="addList" @click="() => {displayModalAddList = true}"><q-icon name="add"></q-icon></q-btn>
       <q-btn><q-icon name="person"></q-icon></q-btn>
     </footer>
@@ -35,12 +36,14 @@ import CardList from 'components/CardList.vue'
 import { useListStore } from 'stores/list-store'
 import { onMounted, computed, ref } from 'vue'
 import ModalSupression from 'components/ModalSupression.vue'
+import MenuComponents from 'components/MenuComponent.vue'
 
 const listStore = useListStore()
 const lists = computed(() => listStore.lists)
 const displayModalAddList = ref(false)
 const displayModalSuprr = ref(false)
 const idSuppr = ref('')
+const menuOpen = ref(false)
 
 onMounted(async () => {
   await listStore.getLists()

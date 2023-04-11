@@ -41,4 +41,13 @@ export default defineComponent({
     font-size: 1.6em;
     color: #646464;
   }
+  aside {
+    width: 90%;
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    background-color: #FFFFFF;
+    z-index: 9999;
+    overflow-y: auto;
+  }
 </style>

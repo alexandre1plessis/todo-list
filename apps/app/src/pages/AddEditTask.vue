@@ -16,7 +16,7 @@
       <q-input class="width q-mx-auto" v-model="task.description" filled type="textarea" placeholder="Describe your task..."/>
     </form>
   </main>
-  <footer  class="text-center">
+  <footer>
       <q-btn class="btn q-mx-auto" type="submit" v-if="pageType === 'Modifier'" label="Modifier" @click="save(pageType)"></q-btn>
       <q-btn class="btn q-mx-auto" type="submit" v-else label="Créer" @click="save(pageType)"></q-btn>
   </footer>
@@ -117,6 +117,7 @@ h2 {
   width: 90%;
   color: #FFFFFF;
   background: #613973;
+  display: block;
 }
 footer {
   width: 100%;
