@@ -11,9 +11,9 @@
         </div>
       </div>
       <h3>Task</h3>
-      <q-input class="width q-mx-auto" outlined v-model="task.title" placeholder="Describe your task" required/>
+      <q-input class="width q-mx-auto" outlined v-model="taskForm.title" placeholder="Describe your task" required/>
       <h3>Description</h3>
-      <q-input class="width q-mx-auto" v-model="task.description" filled type="textarea" placeholder="Describe your task..."/>
+      <q-input class="width q-mx-auto" v-model="taskForm.description" filled type="textarea" placeholder="Describe your task..."/>
     </form>
   </main>
   <footer  class="text-center">
@@ -45,25 +45,28 @@ const task = computed(() => {
   if (route.params.id !== '0') {
     return listStore.task
   } else {
-    return { title: '', description: '', state: false, list: route.params.idList }
+    return taskForm
   }
 })
+
+const taskForm = ref({ title: '', description: '', state: false, list: route.params.idList })
 
 onMounted(async () => {
   if (route.params.id !== '0') {
     await listStore.getTask(route.params.id)
+    taskForm.value = task.value
   }
 })
 
 async function save (pageType) {
   errors.value = []
-  if (task.value.title === '') {
+  if (taskForm.value.title === '') {
     errors.value.push('Le titre ne doit pas être vide')
     return
   }
   if (pageType === 'Créer') {
     try {
-      await listStore.createTask(task.value)
+      await listStore.createTask(taskForm.value)
       Notify.create('Tache enregistrer')
       this.router.go(-1)
     } catch (e) {
@@ -72,7 +75,7 @@ async function save (pageType) {
   }
   if (pageType === 'Modifier') {
     try {
-      await listStore.updateTask(task.value)
+      await listStore.updateTask(taskForm.value)
       Notify.create('Tache modifier')
     } catch (e) {
       errors.value.push(e.message)
