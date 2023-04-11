@@ -1,5 +1,5 @@
 <template>
-    <MenuComponents v-if="menuOpen" @closeModal="menuOpen = false"></MenuComponents>
+    <MenuComponents v-if="menuOpen" @closeModal="menuOpen = false" @addList="addListAndCloseMenu()"></MenuComponents>
     <main>
       <div class="flex justify-between p-4">
           <h2 class="mr-4">Dashboard</h2>
@@ -53,6 +53,11 @@ function handleOpenModalSuppr (id) {
   displayModalSuprr.value = true
   idSuppr.value = id
   lists.value = listStore.lists
+}
+
+function addListAndCloseMenu () {
+  menuOpen.value = false
+  displayModalAddList.value = true
 }
 
 </script>

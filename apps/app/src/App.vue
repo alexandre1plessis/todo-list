@@ -47,7 +47,7 @@ export default defineComponent({
     top: 0;
     bottom: 0;
     background-color: #FFFFFF;
-    z-index: 9999;
+    z-index: 100;
     overflow-y: auto;
   }
 </style>

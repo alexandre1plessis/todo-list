@@ -38,6 +38,7 @@ async function save () {
 <style scoped>
 
 .addListComponent{
+    z-index: 150;
     position: fixed;
     top: 0;
     left: 0;
