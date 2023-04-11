@@ -1,0 +1,10 @@
+{
+	"appId": "org.capacitor.quasar.app",
+	"appName": "todomobileapp",
+	"bundledWebRuntime": false,
+	"npmClient": "yarn",
+	"webDir": "www",
+	"server": {
+		"url": "http://192.168.1.205:9500"
+	}
+}
