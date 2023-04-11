@@ -17,7 +17,7 @@
       <h3>Tasks - {{ tasksIncompleted.length }}</h3>
       <div class="tasksList">
         <div class="content-checbox flex justify-between items-center" v-for="task in tasksIncompleted" :key="task._id">
-          <q-checkbox v-model="task.state" :label="task.title" @update:model-value="(value, evt) => editStatusTask(task)" />
+          <q-checkbox v-model="task.state" :label="task.title" color="green" @update:model-value="(value, evt) => editStatusTask(task)" />
           <q-icon name="visibility" class="icon" @click="() => router.push({ name: 'view-task', params:{ id: task._id, idList: id }})"/>
         </div>
       </div>

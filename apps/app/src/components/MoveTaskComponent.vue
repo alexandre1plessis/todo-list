@@ -35,15 +35,14 @@ onMounted(async () => {
   await listStore.getLists()
   const lists = listStore.lists
   lists.forEach(l => list.value.push(l.title))
-  console.log(list.value)
 })
 
 function closeModalMove () {
   emit('closeModal')
 }
-function moveTask () {
-  console.log(id.value)
-  console.log(model)
+async function moveTask () {
+  await listStore.moveTask(id.value, model.value)
+  closeModalMove()
 }
 </script>
 

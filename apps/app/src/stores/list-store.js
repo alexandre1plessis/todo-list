@@ -48,8 +48,7 @@ export const useListStore = defineStore('list', {
         Notify.create('Le titre ne doit pas être vide')
         return false
       }
-      const list = { title: title }
-      const retour = await api.post('/lists/', list)
+      const retour = await api.post('/lists/', { title: title })
         .then(() => {
           Notify.create('La liste a été crée ')
           return true
@@ -122,6 +121,19 @@ export const useListStore = defineStore('list', {
       await api.delete('/tasks/' + id)
         .then(() => (Notify.create('La tâche a été supprimer')))
         .catch(error => (Notify.create(`Error during delete a task: ${error.response.data.message}`)))
+    },
+
+    async moveTask (idTask, nameList) {
+      const list = this.lists.find(list => list.title === nameList)
+      if (typeof list === 'undefined') {
+        Notify.create('Error during move a task: la liste choisi n\'éxiste pas')
+        return
+      }
+
+      await api.put('/tasks/add/' + idTask, { listId: list._id })
+        .then(() => (Notify.create('La tâche a été déplacer')))
+        .catch(error => (Notify.create(`Error during delete a task: ${error.response.data.message}`)))
+      await this.getLists()
     }
   }
 })
