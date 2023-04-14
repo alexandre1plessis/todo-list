@@ -4,7 +4,14 @@ import { SchemaType } from 'mongoose'
 
 export const getTasks = async (ctx) => {
   try {
-    const tasks = await TaskModel.find({})
+    // Check if user is authenticated
+    if (!ctx.state.user) {
+      ctx.unauthorized({ message: 'User not authenticated' })
+      return
+    }
+
+    // Retrieve tasks belonging to authenticated user
+    const tasks = await TaskModel.find({ user: ctx.state.user._id })
     ctx.ok(tasks)
   } catch (error) {
     ctx.badRequest({ message: error.message })
@@ -13,7 +20,7 @@ export const getTasks = async (ctx) => {
 
 export const getOneTask = async (ctx) => {
   try {
-    const task = await TaskModel.findOne({ _id: ctx.params.id })
+    const task = await TaskModel.findOne({ _id: ctx.params.id, user: ctx.state.user._id })
     if(!task) throw new Error('Task not found')
     ctx.ok(task)
   } catch (error) {
@@ -33,7 +40,7 @@ export const createTask = async (ctx) => {
 
     if(error) throw new Error(error)
 
-    const task = await TaskModel.create(value)
+    const task = await TaskModel.create({ ...value, user: ctx.state.user._id })
     ctx.ok(task)
   } catch (error) {
     ctx.badRequest({ message: error.message })
