@@ -1,9 +1,7 @@
-import { TaskModel, ListModel } from '../list/list-model.js'
+import { TaskModel, ListModel, UserModel } from '../list/list-model.js'
 import joi from 'joi'
 import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
-
-import { UserModel } from '../models/user.js'
 
 // Fonction pour créer un compte utilisateur
 export const createUser = async (ctx) => {
