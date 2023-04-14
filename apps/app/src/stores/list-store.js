@@ -23,14 +23,14 @@ export const useListStore = defineStore('list', {
       this.tasksC = []
       const lists = await api.get('/lists')
         .then()
-        .catch(error => Notify.create(`Error during loading lists: ${error.message}`))
+        .catch(error => Notify.create(`Error during loading lists: ${error.response.data.message}`))
       this.lists = lists.data
       for (const list of this.lists) {
         list.tasks = await api.get(`/lists/tasks/${list._id}`)
           .then(reponse => {
             return reponse.data
           })
-          .catch(error => Notify.create(`Error during loading tasks: ${error.message}`))
+          .catch(error => Notify.create(`Error during loading tasks: ${error.response.data.message}`))
       }
     },
 
@@ -39,7 +39,7 @@ export const useListStore = defineStore('list', {
         .then(rep => {
           return { id: rep.data._id, name: rep.data.title }
         })
-        .catch(error => Notify.create(`Error during loading list: ${error.message}`))
+        .catch(error => Notify.create(`Error during loading list: ${error.response.data.message}`))
       this.list = list
     },
 
@@ -89,7 +89,7 @@ export const useListStore = defineStore('list', {
         .then(reponse => {
           return reponse.data
         })
-        .catch(error => Notify.create(`Error get a task: ${error.message}`))
+        .catch(error => Notify.create(`Error get a task: ${error.response.data.message}`))
     },
 
     async getTasks (idList) {
