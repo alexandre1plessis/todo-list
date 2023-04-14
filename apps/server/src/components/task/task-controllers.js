@@ -60,8 +60,12 @@ export const updateTask = async (ctx) => {
     const { error, value } = schema.validate(ctx.request.body)
 
     if(error) throw new Error(error)
+
+    // add the user ID to the value object
+    value.user = ctx.state.user._id
   
-    const task = await TaskModel.findOneAndUpdate({ _id: ctx.params.id }, value, { new: true })
+    const task = await TaskModel.findOneAndUpdate({ _id: ctx.params.id, user: ctx.state.user._id }, value, { new: true })
+    if (!task) throw new Error('Task not found')
     ctx.ok(task)
   } catch (error) {
     ctx.badRequest({ message: error.message })
