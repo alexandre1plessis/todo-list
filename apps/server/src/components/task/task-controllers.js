@@ -74,7 +74,7 @@ export const updateTask = async (ctx) => {
 
 export const deleteTask = async (ctx) => {
   try {
-    const task = await TaskModel.findOneAndDelete({ _id: ctx.params.id })
+    const task = await TaskModel.findOneAndDelete({ _id: ctx.params.id, user: ctx.state.user.id })
     if(!task) throw new Error('Task not found')
     ctx.ok(task)
   } catch (error) {
@@ -91,12 +91,10 @@ export const moveTaskToListById = async (ctx) => {
 
     if (error) throw new Error(error)
 
-    const task = await TaskModel.findById(ctx.params.taskId)
+    const task = await TaskModel.findOne({ _id: ctx.params.taskId, user: ctx.state.user.id })
     if (!task) throw new Error('Task not found')
 
-    const newlist = await ListModel.findById(value.listId)
-    console.log(newlist)
-    console.log(task.list.equals(newlist._id))
+    const newlist = await ListModel.findOne({ _id: value.listId, user: ctx.state.user.id })
     if (!newlist) throw new Error('List not found')
 
     // Check if task is already in new list
