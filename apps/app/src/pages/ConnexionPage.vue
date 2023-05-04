@@ -14,7 +14,7 @@
           </template>
         </q-input>
       </div>
-      <q-btn class="btn q-mx-auto" type="submit" label="Connexion"></q-btn>
+      <q-btn class="btn q-mx-auto" type="submit" label="Connexion" @click="connexion"></q-btn>
       <span>pas de compte ? inscrivez vous <a @click="() => router.push( 'inscription')">ici</a></span>
     </div>
   </main>
@@ -22,11 +22,17 @@
 <script setup>
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
+import { useUserStore } from 'stores/user-store'
 
 const router = useRouter()
+const userStore = useUserStore()
 const email = ref('')
 const password = ref('')
 const isPwd = ref(true)
+
+async function connexion () {
+  await userStore.authUser(email.value, password.value)
+}
 
 </script>
 <style lang="scss">
