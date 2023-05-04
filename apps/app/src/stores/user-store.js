@@ -2,12 +2,13 @@ import { defineStore } from 'pinia'
 import { api } from 'boot/axios'
 
 export const useUserStore = defineStore('user', {
-  state: () => ({
-    user: {},
-    error: {}
-  }),
+  state: () => ({ }),
 
   getters: {
+    user () {
+      console.log(localStorage.getItem('user_todo'))
+      return JSON.parse(localStorage.getItem('user_todo'))
+    }
   },
 
   actions: {
@@ -26,6 +27,7 @@ export const useUserStore = defineStore('user', {
         errors.push('L\'adresse email existe déjà veuillez vous connecter')
         return errors
       }
+
       this.user = { name: name, email: email }
       return false
     },
@@ -33,9 +35,23 @@ export const useUserStore = defineStore('user', {
     async authUser (email, password) {
       const data = { email: email, password: password }
       const auth = await api.post('/users/authenticate', data)
-        .then((rep) => { console.log(rep) })
+        .then(rep => { return rep.data })
         .catch(error => { return error.response.data.message })
+      if (typeof auth === 'object') {
+        this.user = auth.user
+        this.token = auth.token
+        localStorage.setItem('user_todo', JSON.stringify(auth.user))
+        localStorage.setItem('token_todo', JSON.stringify(auth.token))
+        return false
+      }
       return auth
+    },
+
+    firstLettre (string) {
+      if (string.name === 'undefined') {
+        return ''
+      }
+      return string.name.charAt(0).toUpperCase()
     }
   }
 })

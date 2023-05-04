@@ -3,8 +3,11 @@
     <div class="card">
       <h1>Connexion</h1>
       <div class="card-body">
-        <q-input class="input" v-model="email" type="email" hint="Email"/>
-        <q-input class="input" v-model="password" :type="isPwd ? 'password' : 'text'" hint="Password">
+        <div class="error" v-if="error">
+          {{ error }}
+        </div>
+        <q-input class="email" v-model="email" type="email" hint="Email"/>
+        <q-input class="password" v-model="password" :type="isPwd ? 'password' : 'text'" hint="Password">
           <template v-slot:append>
             <q-icon
               :name="isPwd ? 'visibility_off' : 'visibility'"
@@ -29,9 +32,15 @@ const userStore = useUserStore()
 const email = ref('')
 const password = ref('')
 const isPwd = ref(true)
+const error = ref('')
 
 async function connexion () {
-  await userStore.authUser(email.value, password.value)
+  const err = await userStore.authUser(email.value, password.value)
+  if (err) {
+    error.value = err
+  } else {
+    router.push('/home')
+  }
 }
 
 </script>
