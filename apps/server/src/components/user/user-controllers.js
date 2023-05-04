@@ -45,7 +45,15 @@ export const createUser = async (ctx) => {
       if(!isPasswordValid) throw new Error('Invalid email or password')
   
       const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET)
-      ctx.ok({ token })
+        ctx.ok({
+            token,
+            user: {
+                _id: user._id,
+                firstName: user.firstName,
+                lastName: user.lastName,
+                email: user.email
+            }
+        })
     } catch (error) {
       ctx.badRequest({ message: error.message })
     }
