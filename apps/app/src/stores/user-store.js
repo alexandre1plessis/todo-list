@@ -28,14 +28,14 @@ export const useUserStore = defineStore('user', {
       }
       this.user = { name: name, email: email }
       return false
-    }
-  },
+    },
 
-  async authUser (email, password) {
-    const data = { email: email, password: password }
-    const auth = await api.post('/users/authenticate')
-      .then((rep) => { console.log(rep)
-      })
-      .catch(error => { return error.response.data.message })
+    async authUser (email, password) {
+      const data = { email: email, password: password }
+      const auth = await api.post('/users/authenticate', data)
+        .then((rep) => { console.log(rep) })
+        .catch(error => { return error.response.data.message })
+      return auth
+    }
   }
 })
