@@ -3,9 +3,12 @@
     <div class="card">
       <h1>Inscription</h1>
       <div class="card-body">
+        <div class="error" v-for="(error, index) in errors" :key="index">
+          {{ error }}
+        </div>
         <q-input class="input" v-model="name" type="text" hint="Nom d'utilisateur"/>
-        <q-input class="input" v-model="email" type="email" hint="Email"/>
-        <q-input class="input" v-model="password" :type="isPwd ? 'password' : 'text'" hint="Password">
+        <q-input class="email" v-model="email" type="email" hint="Email"/>
+        <q-input class="password" v-model="password" :type="isPwd ? 'password' : 'text'" hint="Password">
           <template v-slot:append>
             <q-icon
               :name="isPwd ? 'visibility_off' : 'visibility'"
@@ -31,12 +34,15 @@ const email = ref('')
 const password = ref('')
 const name = ref('')
 const isPwd = ref(true)
-const error = ref([])
+const errors = ref([])
 
 async function inscription () {
-  const retour = userStore.setUser(name.value, email.value, password.value)
+  errors.value = []
+  const retour = await userStore.setUser(name.value, email.value, password.value)
   if (retour) {
-    error.value.push(retour)
+    retour.forEach(error => errors.value.push(error))
+  } else {
+    this.router.push('/')
   }
 }
 
