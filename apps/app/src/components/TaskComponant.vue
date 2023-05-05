@@ -6,8 +6,13 @@
 
 <script setup>
 import { useListStore } from 'stores/list-store'
-import { ref, defineProps } from 'vue'
+import { ref, defineProps, onMounted } from 'vue'
+import { AdMob } from '@capacitor-community/admob'
+import { interstitial } from 'boot/addMob'
 
+onMounted(async () => {
+  await interstitial()
+})
 const props = defineProps({
   task: {
     type: Object,
@@ -19,6 +24,7 @@ const listStore = useListStore()
 
 function saveChange () {
   listStore.updateTask(task.value)
+  AdMob.showInterstitial()
 }
 
 </script>

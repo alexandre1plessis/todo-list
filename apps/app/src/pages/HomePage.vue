@@ -31,12 +31,13 @@
 </template>
 
 <script setup>
-import addListComponent from 'components/AddListComponent.vue'
+// import addListComponent from 'components/AddListComponent.vue'
 import CardList from 'components/CardList.vue'
 import { useListStore } from 'stores/list-store'
 import { onMounted, computed, ref } from 'vue'
 import ModalSupression from 'components/ModalSupression.vue'
 import MenuComponents from 'components/MenuComponent.vue'
+import { banner } from 'boot/addMob'
 
 const listStore = useListStore()
 const lists = computed(() => listStore.lists)
@@ -47,6 +48,7 @@ const menuOpen = ref(false)
 
 onMounted(async () => {
   await listStore.getLists()
+  await banner()
 })
 
 function handleOpenModalSuppr (id) {

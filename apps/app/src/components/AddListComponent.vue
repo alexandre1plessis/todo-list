@@ -18,21 +18,26 @@
 
 <script setup>
 import { useListStore } from 'stores/list-store'
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
+import { AdMob } from '@capacitor-community/admob'
+import { interstitial } from 'boot/addMob'
 
+onMounted(async () => {
+  await interstitial()
+})
 const listStore = useListStore()
 const titre = ref()
 const emit = defineEmits(['addList'])
 
 function closeModal () {
   emit('addList')
+  AdMob.showInterstitial()
 }
 
 async function save () {
   const retour = await listStore.addList(titre.value)
   if (retour) closeModal()
 }
-
 </script>
 
 <style scoped>
