@@ -6,7 +6,7 @@ export const useUserStore = defineStore('user', {
 
   getters: {
     user () {
-      console.log(localStorage.getItem('user_todo'))
+      console.log('getter', localStorage.getItem('user_todo'))
       return JSON.parse(localStorage.getItem('user_todo'))
     }
   },
@@ -38,8 +38,6 @@ export const useUserStore = defineStore('user', {
         .then(rep => { return rep.data })
         .catch(error => { return error.response.data.message })
       if (typeof auth === 'object') {
-        this.user = auth.user
-        this.token = auth.token
         localStorage.setItem('user_todo', JSON.stringify(auth.user))
         localStorage.setItem('token_todo', JSON.stringify(auth.token))
         return false
@@ -48,10 +46,7 @@ export const useUserStore = defineStore('user', {
     },
 
     firstLettre (string) {
-      if (string.name === 'undefined') {
-        return ''
-      }
-      return string.name.charAt(0).toUpperCase()
+      return string.charAt(0).toUpperCase()
     }
   }
 })

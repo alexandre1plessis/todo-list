@@ -35,6 +35,7 @@ const isPwd = ref(true)
 const error = ref('')
 
 async function connexion () {
+  console.log('bonjour')
   const err = await userStore.authUser(email.value, password.value)
   if (err) {
     error.value = err
