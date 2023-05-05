@@ -51,7 +51,7 @@ const user = ref()
 const letter = ref()
 
 onMounted(async () => {
-  // await listStore.getLists()
+  await listStore.getLists()
   user.value = userStore.user
   letter.value = userStore.firstLettre(user.value.name)
 })

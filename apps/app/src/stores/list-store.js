@@ -9,7 +9,12 @@ export const useListStore = defineStore('list', {
     tasks: [],
     tasksI: [],
     tasksC: [],
-    task: { title: '', description: '', state: false, list: '' }
+    task: { title: '', description: '', state: false, list: '' },
+    config: {
+      headers: {
+        Authorization: `Bearer ${JSON.parse(localStorage.getItem('token_todo'))}`
+      }
+    }
   }),
 
   getters: {
@@ -21,7 +26,7 @@ export const useListStore = defineStore('list', {
       this.tasks = []
       this.tasksI = []
       this.tasksC = []
-      const lists = await api.get('/lists')
+      const lists = await api.get('/lists/', this.config)
         .then()
         .catch(error => Notify.create(`Error during loading lists: ${error.response.data.message}`))
       this.lists = lists.data
@@ -48,7 +53,7 @@ export const useListStore = defineStore('list', {
         Notify.create('Le titre ne doit pas être vide')
         return false
       }
-      const retour = await api.post('/lists/', { title: title })
+      const retour = await api.post('/lists/', title)
         .then(() => {
           Notify.create('La liste a été crée ')
           return true
