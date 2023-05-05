@@ -4,6 +4,7 @@ const routes = [
     path: '/',
     children: [
       { path: '', name: 'connexion', component: () => import('pages/ConnexionPage.vue') },
+      { path: '/home', name: 'home', component: () => import('pages/HomePage.vue') },
       { path: '/inscription', name: 'inscription', component: () => import('pages/InscriptionPage.vue') },
       { path: '/lists/:id', name: 'list-view', component: () => import('pages/ListPage.vue') },
       { path: '/tasks/:id', name: 'task-page', component: () => import('pages/taskPage.vue') },

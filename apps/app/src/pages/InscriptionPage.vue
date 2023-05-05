@@ -27,6 +27,7 @@
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { useUserStore } from 'stores/user-store'
+import { Notify } from 'quasar'
 
 const router = useRouter()
 const userStore = useUserStore()
@@ -39,10 +40,11 @@ const errors = ref([])
 async function inscription () {
   errors.value = []
   const retour = await userStore.setUser(name.value, email.value, password.value)
-  if (retour) {
+  if (typeof retour === 'boolean') {
+    Notify.create('Inscription réussite !')
+    router.push('/')
+  } else if (typeof retour === 'object') {
     retour.forEach(error => errors.value.push(error))
-  } else {
-    this.router.push('/')
   }
 }
 

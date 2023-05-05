@@ -1,13 +1,13 @@
 <template>
     <MenuComponents v-if="menuOpen" @closeModal="menuOpen = false"></MenuComponents>
     <main>
-      <div class="flex justify-between p-4">
+      <div class="top flex justify-between p-4">
           <h2 class="mr-4">Dashboard</h2>
-          <q-avatar size="35px" class="m" color="primary" text-color="white">T</q-avatar>
+          <q-avatar size="35px" class="m" color="primary" text-color="white">{{ letter }}</q-avatar>
       </div>
         <h1>
           <span class="block" style="line-height: 0.8em;">Bonjour,</span>
-          <span class="block" style="line-height: 1em;"> Tom Dupont ! 👋</span>
+          <span class="block" style="line-height: 1em;"> {{ user.name }} ! 👋</span>
         </h1>
         <div class="listCards">
           <CardList
@@ -35,18 +35,24 @@ import addListComponent from 'components/AddListComponent.vue'
 import CardList from 'components/CardList.vue'
 import { useListStore } from 'stores/list-store'
 import { onMounted, computed, ref } from 'vue'
+import { useUserStore } from 'stores/user-store'
 import ModalSupression from 'components/ModalSupression.vue'
 import MenuComponents from 'components/MenuComponent.vue'
 
 const listStore = useListStore()
+const userStore = useUserStore()
 const lists = computed(() => listStore.lists)
 const displayModalAddList = ref(false)
 const displayModalSuprr = ref(false)
 const idSuppr = ref('')
 const menuOpen = ref(false)
+const user = ref()
+const letter = ref()
 
 onMounted(async () => {
-  await listStore.getLists()
+  // await listStore.getLists()
+  user.value = await userStore.user
+  console.log(user.value)
 })
 
 function handleOpenModalSuppr (id) {
@@ -106,6 +112,10 @@ footer button:before {
 
 main {
   padding-bottom: 5em;
+}
+
+.top {
+  width: 100%
 }
 
 </style>
