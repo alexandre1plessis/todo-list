@@ -3,9 +3,9 @@ import * as ListControllers from './list-controllers.js'
 
 const lists = new Router()
 
-lists.get('/', ListControllers.getLists)
+lists.get('/lists', ListControllers.getLists)
 lists.get('/:id', ListControllers.getOneList)
-lists.post('/', ListControllers.createList)
+lists.post('/newlist', ListControllers.createList)
 lists.put('/:id', ListControllers.updateList)
 lists.del('/:id', ListControllers.deleteList)
 lists.get('/tasks/:id', ListControllers.getTasksByListId)
