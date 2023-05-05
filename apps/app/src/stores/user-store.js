@@ -6,7 +6,6 @@ export const useUserStore = defineStore('user', {
 
   getters: {
     user () {
-      console.log('getter', localStorage.getItem('user_todo'))
       return JSON.parse(localStorage.getItem('user_todo'))
     }
   },

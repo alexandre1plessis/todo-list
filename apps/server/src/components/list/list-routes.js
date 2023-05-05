@@ -3,7 +3,7 @@ import * as ListControllers from './list-controllers.js'
 
 const lists = new Router()
 
-lists.get('/lists', ListControllers.getLists)
+lists.get('/', ListControllers.getLists)
 lists.get('/:id', ListControllers.getOneList)
 lists.post('/newlist', ListControllers.createList)
 lists.put('/:id', ListControllers.updateList)
