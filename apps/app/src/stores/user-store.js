@@ -28,7 +28,7 @@ export const useUserStore = defineStore('user', {
         return errors
       }
 
-      this.user = { name: name, email: email }
+      // this.user = { name: name, email: email }
       return false
     },
 
