@@ -62,7 +62,7 @@ export const createUser = async (ctx) => {
             token,
             user: {
                 id: user._id,
-                name: user.firstName,
+                name: user.name,
                 email: user.email
             }
         })

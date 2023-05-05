@@ -7,8 +7,9 @@
       </div>
         <h1>
           <span class="block" style="line-height: 0.8em;">Bonjour,</span>
-          <span class="block" style="line-height: 1em;"> {{ user.name }} ! 👋</span>
+          <span class="block" style="line-height: 1em;" v-if="user"> {{ user.name }} ! 👋</span>
         </h1>
+<!--        <span v-if="lists.length == 0">Aucune liste</span>-->
         <div class="listCards">
           <CardList
             v-for="list in lists"
@@ -21,8 +22,8 @@
         </div>
     </main>
     <footer class="menu-bottom">
-      <q-btn @click="() => {menuOpen  = true}"><q-icon name="list"></q-icon></q-btn>
-      <q-btn class="addList" @click="() => {displayModalAddList = true}"><q-icon name="add"></q-icon></q-btn>
+      <q-btn @click="() => { menuOpen  = true }"><q-icon name="list"></q-icon></q-btn>
+      <q-btn class="addList" @click="() => { displayModalAddList = true }"><q-icon name="add"></q-icon></q-btn>
       <q-btn><q-icon name="person"></q-icon></q-btn>
     </footer>
 
@@ -51,8 +52,8 @@ const letter = ref()
 
 onMounted(async () => {
   // await listStore.getLists()
-  user.value = await userStore.user
-  console.log(user.value)
+  user.value = userStore.user
+  letter.value = userStore.firstLettre(user.value.name)
 })
 
 function handleOpenModalSuppr (id) {
@@ -115,7 +116,7 @@ main {
 }
 
 .top {
-  width: 100%
+  width: 100%;
 }
 
 </style>
