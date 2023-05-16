@@ -57,7 +57,7 @@ export const authenticateUser = async (ctx) => {
 
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET);
 
-    const authenticatedUser = await UserModel.findById(userId).select('-password');
+    const authenticatedUser = await UserModel.findById(user._id).select('-password');
 
     ctx.state.user = authenticatedUser;
     ctx.ok({

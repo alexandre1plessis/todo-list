@@ -6,7 +6,7 @@ const lists = new Router()
 
 lists.get('/', authMiddleware, ListControllers.getLists)
 lists.get('/:id', authMiddleware, ListControllers.getOneList)
-lists.post('/newlist', authMiddleware, ListControllers.createList)
+lists.post('/', authMiddleware, ListControllers.createList)
 lists.put('/:id', authMiddleware, ListControllers.updateList)
 lists.del('/:id', authMiddleware, ListControllers.deleteList)
 lists.get('/tasks/:id', authMiddleware, ListControllers.getTasksByListId)

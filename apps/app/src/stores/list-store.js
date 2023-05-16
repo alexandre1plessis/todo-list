@@ -40,7 +40,7 @@ export const useListStore = defineStore('list', {
     },
 
     async getList (id) {
-      const list = await api.get('/lists/' + id)
+      const list = await api.get('/lists/' + id, this.config)
         .then(rep => {
           return { id: rep.data._id, name: rep.data.title }
         })
@@ -49,11 +49,11 @@ export const useListStore = defineStore('list', {
     },
 
     async addList (title) {
-      if (typeof title === 'undefined') {
+      if (typeof title === 'undefined' || title === '') {
         Notify.create('Le titre ne doit pas être vide')
         return false
       }
-      const retour = await api.post('/lists/', title)
+      const retour = await api.post('/lists/', { title: title }, this.config)
         .then(() => {
           Notify.create('La liste a été crée ')
           return true
@@ -76,7 +76,7 @@ export const useListStore = defineStore('list', {
 
     async updateTask (task) {
       const newTask = { title: task.title, description: task.description, state: task.state, list: task.list }
-      await api.put(`/tasks/${task._id}`, newTask)
+      await api.put(`/tasks/${task._id}`, newTask, this.config)
         .then()
         .catch(error => Notify.create(`Error during update a task: ${error.message}`))
     },
@@ -84,7 +84,7 @@ export const useListStore = defineStore('list', {
     async createTask (task) {
       const newTask = { title: task.title, description: task.description, state: task.state, list: task.list }
       console.log(newTask)
-      await api.post('/tasks/', newTask)
+      await api.post('/tasks/', newTask, this.config)
         .then()
         // .catch(error => error)
     },
@@ -123,7 +123,7 @@ export const useListStore = defineStore('list', {
     },
 
     async deleteTask (id) {
-      await api.delete('/tasks/' + id)
+      await api.delete('/tasks/' + id, this.config)
         .then(() => (Notify.create('La tâche a été supprimer')))
         .catch(error => (Notify.create(`Error during delete a task: ${error.response.data.message}`)))
     },
@@ -135,7 +135,7 @@ export const useListStore = defineStore('list', {
         return
       }
 
-      await api.put('/tasks/add/' + idTask, { listId: list._id })
+      await api.put('/tasks/add/' + idTask, { listId: list._id }, this.config)
         .then(() => (Notify.create('La tâche a été déplacer')))
         .catch(error => (Notify.create(`Error during delete a task: ${error.response.data.message}`)))
       await this.getLists()

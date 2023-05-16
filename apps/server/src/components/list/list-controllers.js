@@ -4,7 +4,7 @@ import { SchemaType } from 'mongoose'
 
 export const getLists = async (ctx) => {
   try {
-    const userId = ctx.auth.userId
+    const userId = ctx.state.auth.userId
     const lists = await ListModel.find({ user: userId })
     ctx.ok(lists)
   } catch (error) {
@@ -14,7 +14,7 @@ export const getLists = async (ctx) => {
 
 export const getOneList = async (ctx) => {
   try {
-    const user = ctx.state.user;
+    const user = ctx.state.auth.userId;
     const list = await ListModel.findOne({ _id: ctx.params.id, user: user._id });
     if (!list) throw new Error('List not found')
     ctx.ok(list)
@@ -25,6 +25,8 @@ export const getOneList = async (ctx) => {
 
 export const createList = async (ctx) => {
   try {
+    console.log(ctx);
+    ctx.badRequest(JSON.stringify(ctx.request.body))
     if (!ctx.request.body.title) throw new Error('Title is missing')
 
     const schema = joi.object({
@@ -33,12 +35,13 @@ export const createList = async (ctx) => {
     const { error, value } = schema.validate(ctx.request.body)
 
     if(error) throw new Error(error)
+    console.log(ctx.state.auth)
 
-    const { userId } = ctx.state.user
+    const { userId } = ctx.state.auth.userId;
     const listname = await ListModel.findOne({ title: ctx.request.body.title, userId })
     if (listname) throw new Error('List already exists')
 
-    const list = await ListModel.create({ ...value, userId })
+    const list = await ListModel.create({ ...value, user: userId })
     ctx.ok(list)
   } catch (error) {
     ctx.badRequest({ message: error.message })
@@ -47,7 +50,7 @@ export const createList = async (ctx) => {
 
 export const updateList = async (ctx) => {
   try {
-    const userId = ctx.state.user.id;
+    const userId = ctx.ctx.state.auth.userId;
     if (!ctx.request.body.title) throw new Error('Title is missing')
 
     const schema = joi.object({
@@ -71,7 +74,7 @@ export const updateList = async (ctx) => {
 
 export const deleteList = async (ctx) => {
   try {
-    const userId = ctx.state.user._id
+    const userId = ctx.ctx.state.auth.userId
 
     const list = await ListModel.findOneAndDelete({ _id: ctx.params.id, user: userId })
     if(!list) throw new Error('List not found or user is not authorized to delete it')

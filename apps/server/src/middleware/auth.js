@@ -1,15 +1,15 @@
 import jwt from 'jsonwebtoken';
 
-export default function authMiddleware(req, res, next) {
+export default async  function authMiddleware(ctx, next) {
   try {
-    const token = req.headers.authorization.split(' ')[1];
+    const token = ctx.headers.authorization.split(' ')[1];
     const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
-    const userId = decodedToken.userId;
-    req.auth = {
+    const userId = decodedToken.id;
+    ctx.state.auth = {
       userId: userId
     };
-    next();
+    await next();
   } catch(error) {
-    res.status(401).json({ error });
+    ctx.throw(401, 'Utilisateur non authentifié');
   }
 }
