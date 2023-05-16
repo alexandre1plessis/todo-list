@@ -26,8 +26,6 @@ export const useUserStore = defineStore('user', {
         errors.push('L\'adresse email existe déjà veuillez vous connecter')
         return errors
       }
-
-      this.user = { name: name, email: email }
       return false
     },
 

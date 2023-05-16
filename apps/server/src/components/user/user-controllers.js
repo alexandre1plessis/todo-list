@@ -57,8 +57,6 @@ export const authenticateUser = async (ctx) => {
 
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET);
 
-    const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
-    const userId = decodedToken.id;
     const authenticatedUser = await UserModel.findById(userId).select('-password');
 
     ctx.state.user = authenticatedUser;
@@ -66,7 +64,7 @@ export const authenticateUser = async (ctx) => {
       token,
       user: {
         id: authenticatedUser._id,
-        name: authenticatedUser.firstName,
+        name: authenticatedUser.name,
         email: authenticatedUser.email
       }
     });

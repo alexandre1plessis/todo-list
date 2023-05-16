@@ -4,7 +4,7 @@ import { SchemaType } from 'mongoose'
 
 export const getLists = async (ctx) => {
   try {
-    const userId = ctx.state.user._id
+    const userId = ctx.auth.userId
     const lists = await ListModel.find({ user: userId })
     ctx.ok(lists)
   } catch (error) {

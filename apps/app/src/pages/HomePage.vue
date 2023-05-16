@@ -116,6 +116,7 @@ main {
 }
 
 .top {
+  display: block;
   width: 100%;
 }
 
