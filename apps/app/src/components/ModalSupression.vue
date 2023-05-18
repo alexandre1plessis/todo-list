@@ -3,7 +3,7 @@
     <div class="content">
       <h3>Supprimer la {{type}}</h3>
       <div>
-        Vous êtes sur le point de supprimer votre {{type}} êtes vous sûr de vouloir faire ça ?
+        Vous êtes sur le point de supprimer votre {{type}}. Êtes-vous sûr de vouloir faire ça ?
       </div>
 
       <div class="modalButtons">

@@ -1,28 +1,31 @@
 <template>
-  <header class="flex justify-between p-4">
-    <div class="row items-center p-4">
+  <header class="header-account">
+    <div>
       <q-btn icon="chevron_left" class="button-retour" @click="goBack()"/>
-      <h2> Votre compte </h2>
+      <h1>Votre compte</h1>
     </div>
   </header>
-  <main>
-    <h2>Nom</h2>
-    <div v-if="!modNom">
-      <span> {{ user.name }}</span>
-      <q-btn @click="modNom = true">Modifier votre nom</q-btn>
+  <main class="main-account">
+    <div>
+      <span class="title2">Nom d'utilisateur : </span>
+      <span class="value2">{{ user.name }}</span>
+      <img src="../assets/edit.png" class="edit-button" @click="modNom = true"/>
     </div>
+
     <div v-if="modNom">
       <q-input outlined v-model="user.name" required/>
-      <q-btn @click="saveNom">Enregistrer</q-btn>
       <q-btn @click="annulerNom">Annuler</q-btn>
+      <q-btn @click="saveNom">Enregistrer</q-btn>
     </div>
-    <h2>Modifier Mot de passe</h2>
-    <span>nouveau mdp</span>
-    <q-input class="" v-model="newPassword" type="password" hint="Password"/>
-    <span>ancien mot de passe</span>
-    <q-input class="" v-model="password" type="password" hint="Password"/>
-    <q-btn @click="saveMDP">Modifier votre mdp</q-btn>
 
+    <div class="edit-password">
+      <h2>Modifier votre mot de passe</h2>
+      <span>Ancien mot de passe</span>
+      <q-input class="input" v-model="password" type="password"/>
+      <span>Nouveau mot de passe</span>
+      <q-input class="input" v-model="newPassword" type="password"/>
+      <q-btn @click="saveMDP">Modifier votre mdp</q-btn>
+    </div>
   </main>
 </template>
 
@@ -46,7 +49,7 @@ function goBack () {
 
 function saveNom () {
   if (user.value.name.trim() === '') {
-    error.value = 'Le nom utilisateur ne doit pas être vide'
+    error.value = 'Veuillez rentrer un nom d\'utilisateur'
     return
   }
   userStore.updateUser(user.value)
@@ -57,7 +60,7 @@ function saveNom () {
 
 function saveMDP () {
   if (password.value.trim() === '' || newPassword.value.trim() === '') {
-    error.value = 'Le mot de passe ne doit pas être vide'
+    error.value = 'Veuillez rentrer un mot de passe'
     return
   }
   userStore.updateUserMdp(password.value, newPassword.value)
@@ -72,4 +75,33 @@ function annulerNom () {
 
 <style scoped>
 
+.header-account h1 {
+  margin: 0 0 0 0.5em;
+}
+
+.main-account {
+  padding: 20px 40px;
+}
+.main-account h2 {
+  text-align: left;
+  margin-left: unset;
+}
+.title2{
+  font-size: 1.6em;
+}
+.value2 {
+  font-size: 1.3em;
+  font-weight: bold;
+}
+.edit-button {
+  width: 30px;
+  height: 30px;
+  cursor: pointer;
+}
+.edit-password {
+  margin-top: 30px;
+}
+.input {
+  margin-bottom: 15px;
+}
 </style>

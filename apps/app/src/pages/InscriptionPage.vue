@@ -1,5 +1,5 @@
 <template>
-  <main>
+  <main class="main-inscription">
     <div class="card">
       <h1>Inscription</h1>
       <div class="card-body">
@@ -41,7 +41,7 @@ async function inscription () {
   errors.value = []
   const retour = await userStore.setUser(name.value, email.value, password.value)
   if (typeof retour === 'boolean') {
-    Notify.create('Inscription réussite !')
+    Notify.create('Inscription réussie !')
     router.push('/')
   } else if (typeof retour === 'object') {
     retour.forEach(error => errors.value.push(error))
@@ -50,7 +50,7 @@ async function inscription () {
 
 </script>
 <style lang="scss">
- main {
+ .main-inscription {
    display: flex;
    align-items: center;
    justify-content: center;

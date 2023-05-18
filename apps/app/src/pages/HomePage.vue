@@ -1,25 +1,25 @@
 <template>
     <MenuComponents v-if="menuOpen" @closeModal="menuOpen = false" @addList="addListAndCloseMenu()"></MenuComponents>
     <main>
-      <div class="top flex justify-between p-4">
+      <div class="flex justify-between p-4">
           <h2 class="mr-4">Dashboard</h2>
           <q-avatar size="35px" class="m" color="primary" text-color="white">{{ letter }}</q-avatar>
       </div>
-        <h1>
-          <span class="block" style="line-height: 0.8em;">Bonjour,</span>
-          <span class="block" style="line-height: 1em;" v-if="user"> {{ user.name }} ! 👋</span>
-        </h1>
+      <h1>
+        <span class="block" style="line-height: 0.8em;">Bonjour,</span>
+        <span class="block" style="line-height: 1em;" v-if="user"> {{ user.name }} ! 👋</span>
+      </h1>
 <!--        <span v-if="lists.length == 0">Aucune liste</span>-->
-        <div class="listCards">
-          <CardList
-            v-for="list in lists"
-            :key="list._id"
-            :id="list._id"
-            :title="list.title"
-            :tasks="list.tasks"
-            @openModalSuppr="handleOpenModalSuppr"
-          ></CardList>
-        </div>
+      <div class="listCards">
+        <CardList
+          v-for="list in lists"
+          :key="list._id"
+          :id="list._id"
+          :title="list.title"
+          :tasks="list.tasks"
+          @openModalSuppr="handleOpenModalSuppr"
+        ></CardList>
+      </div>
     </main>
     <footer class="menu-bottom">
       <q-btn @click="() => { menuOpen  = true }"><q-icon name="list"></q-icon></q-btn>

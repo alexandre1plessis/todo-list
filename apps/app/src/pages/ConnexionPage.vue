@@ -1,5 +1,5 @@
 <template>
-  <main>
+  <main class="main-connexion">
     <div class="card">
       <h1>Connexion</h1>
       <div class="card-body">
@@ -47,7 +47,7 @@ async function connexion () {
 
 </script>
 <style lang="scss">
- main {
+ .main-connexion {
    display: flex;
    align-items: center;
    justify-content: center;

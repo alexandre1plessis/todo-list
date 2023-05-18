@@ -10,10 +10,10 @@
           <p>{{ currError }}</p>
         </div>
       </div>
-      <h3>Task</h3>
-      <q-input class="width q-mx-auto" outlined v-model="taskForm.title" placeholder="Describe your task" required/>
+      <h3>Titre</h3>
+      <q-input class="width q-mx-auto" outlined v-model="taskForm.title" placeholder="Tâche 1" required/>
       <h3>Description</h3>
-      <q-input class="width q-mx-auto" v-model="taskForm.description" filled type="textarea" placeholder="Describe your task..."/>
+      <q-input class="width q-mx-auto" v-model="taskForm.description" filled type="textarea" placeholder="Description de la tâche..."/>
     </form>
   </main>
   <footer>
@@ -64,7 +64,7 @@ onMounted(async () => {
 async function save (pageType) {
   errors.value = []
   if (taskForm.value.title === '') {
-    errors.value.push('Le titre ne doit pas être vide')
+    errors.value.push('Veuillez mettre un titre')
     return
   }
   if (pageType === 'Créer') {

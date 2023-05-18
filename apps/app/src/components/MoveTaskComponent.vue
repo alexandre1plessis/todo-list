@@ -3,7 +3,7 @@
     <div class="content">
       <h3>Déplacer la tâche dans une liste</h3>
       <div>
-        <q-select outlined v-model="model" :options="list" label="Selectionner la liste" />
+        <q-select outlined v-model="model" :options="list" label="Sélectionner la liste" />
       </div>
       <div class="modalButtons">
         <q-btn label="Annuler" @click="closeModalMove()"></q-btn>

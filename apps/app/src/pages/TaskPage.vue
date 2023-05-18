@@ -1,5 +1,5 @@
 <template>
-  <h2 v-if="id == 0">Crée une tâche</h2>
+  <h2 v-if="id == 0">Créer une tâche</h2>
   <h2 v-else>Modifier une tâche</h2>
   <div>
     <div>
@@ -20,13 +20,10 @@
 </template>
 
 <script setup>
-import { computed, onMounted} from 'vue'
+import { computed } from 'vue'
 import { useRoute } from 'vue-router'
 
 const route = useRoute()
 const id = computed(() => route.params.id)
-
-onMounted(async () => {
-})
 
 </script>

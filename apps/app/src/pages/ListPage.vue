@@ -14,7 +14,7 @@
   </header>
   <main>
     <div v-if="tasksIncompleted.length !== 0">
-      <h3>Tasks - {{ tasksIncompleted.length }}</h3>
+      <h3>Tâche(s) - {{ tasksIncompleted.length }}</h3>
       <div class="tasksList">
         <div class="content-checbox flex justify-between items-center" v-for="task in tasksIncompleted" :key="task._id">
           <q-checkbox v-model="task.state" :label="task.title" color="green" @update:model-value="(value, evt) => editStatusTask(task)" />
@@ -24,7 +24,7 @@
     </div>
 
     <div v-if="tasksCompleted.length !== 0">
-      <h3>Tasks completed - {{ tasksCompleted.length }}</h3>
+      <h3>Tâche(s) complétée(s) - {{ tasksCompleted.length }}</h3>
       <div class="tasksList">
         <div class="content-checbox flex justify-between items-center" v-for="task in tasksCompleted" :key="task._id" >
           <q-checkbox v-model="task.state" :label="task.title" color="green" @update:model-value="(value, evt) => editStatusTask(task)" />

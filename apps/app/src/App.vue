@@ -28,7 +28,6 @@ export default defineComponent({
     margin-left: 0.5em;
     font-size: 2em;
     font-weight: 400;
-    width: min-content;
     flex: auto;
   }
 
