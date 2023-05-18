@@ -88,3 +88,29 @@ export const updateUser = async (ctx) => {
   }
 
 };
+
+export const updatePwdUser = async (ctx) => {
+  try{
+    const schema = joi.object({
+      password: joi.string().required(),
+      newpassword: joi.string().required()
+    });
+    const { error, value } = schema.validate(ctx.request.body);
+    const user = await UserModel.findOne({ _id: ctx.state.auth.userId });
+
+    const isPasswordValid = await bcrypt.compare(value.password, user.password);
+    if (!isPasswordValid) throw new Error('Invalid email or password');
+
+    const hashedPassword = await bcrypt.hash(value.newpassword, 10);
+
+    user.password = hashedPassword
+
+    const userSave = await TaskModel.findOneAndUpdate({ _id: ctx.state.auth.userId }, user , { new: true })
+    console.log(userSave);
+    if (!userSave) throw new Error('User not found')
+    ctx.ok(userSave)
+  }catch (e) {
+    ctx.badRequest({ message: e.message })
+  }
+
+};

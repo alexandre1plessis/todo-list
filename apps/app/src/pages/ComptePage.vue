@@ -16,6 +16,12 @@
       <q-btn @click="saveNom">Enregistrer</q-btn>
       <q-btn @click="annulerNom">Annuler</q-btn>
     </div>
+    <h2>Modifier Mot de passe</h2>
+    <span>nouveau mdp</span>
+    <q-input class="" v-model="newPassword" type="password" hint="Password"/>
+    <span>ancien mot de passe</span>
+    <q-input class="" v-model="password" type="password" hint="Password"/>
+    <q-btn @click="saveMDP">Modifier votre mdp</q-btn>
 
   </main>
 </template>
@@ -31,6 +37,8 @@ const saveName = ref(userStore.user.name)
 const router = useRouter()
 const modNom = ref(false)
 const error = ref('')
+const password = ref()
+const newPassword = ref()
 
 function goBack () {
   router.go(-1)
@@ -45,6 +53,14 @@ function saveNom () {
   saveName.value = user.value.name
   modNom.value = false
   userStore.setUserLocal(user.value)
+}
+
+function saveMDP () {
+  if (password.value.trim() === '' || newPassword.value.trim() === '') {
+    error.value = 'Le mot de passe ne doit pas être vide'
+    return
+  }
+  userStore.updateUserMdp(password.value, newPassword.value)
 }
 
 function annulerNom () {

@@ -7,5 +7,6 @@ const users = new Router()
 users.post('/', UserControllers.createUser)
 users.post('/authenticate', UserControllers.authenticateUser)
 users.put('/', authMiddleware, UserControllers.updateUser)
+users.put('/pwd', authMiddleware, UserControllers.updatePwdUser)
 
 export default users

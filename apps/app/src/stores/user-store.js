@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia'
 import { api } from 'boot/axios'
 import { Notify } from 'quasar'
+import { useListStore } from 'stores/list-store'
 
 export const useUserStore = defineStore('user', {
   state: () => ({ }),
@@ -44,13 +45,22 @@ export const useUserStore = defineStore('user', {
 
     async updateUser (user) {
       const data = { user: user }
-      const u = await api.put('/users/', data)
+      const u = await api.put('/users/', data, useListStore().config)
         .then(() => {
           return false
         })
         .catch(error => { return error.response.data.message })
       if (!u) Notify.create('Nom Modifier')
       else Notify.create(`Error during change user: ${u}`)
+    },
+
+    async updateUserMdp (password, newpassword) {
+      const data = { password: password, newpassword: newpassword }
+      await api.put('users/pwd', data, useListStore().config)
+        .then(() => {
+          Notify.create('Mdp Modifier')
+        })
+        .catch(error => { Notify.create(`Error during change user: ${error.response.data.message}`) })
     },
 
     setUserLocal (user) {
