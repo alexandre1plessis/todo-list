@@ -40,6 +40,10 @@ async function connexion () {
     if (err) {
       error.value = err
     } else {
+      if (navigator.storage && navigator.storage.persist) {
+        const isPersisted = await navigator.storage.persist()
+        console.log(`Persisted storage granted: ${isPersisted}`)
+      }
       router.push('/home')
     }
   }

@@ -26,8 +26,8 @@ import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 
 const userStore = useUserStore()
-const user = ref(userStore.user)
-const saveName = ref(userStore.user.name)
+const user = ref(userStore.getUser())
+const saveName = ref(userStore.getUser().name)
 const router = useRouter()
 const modNom = ref(false)
 const error = ref('')

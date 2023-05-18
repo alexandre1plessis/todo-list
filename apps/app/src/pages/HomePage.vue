@@ -54,7 +54,7 @@ const router = useRouter()
 
 onMounted(async () => {
   await listStore.getLists()
-  user.value = userStore.user
+  user.value = userStore.getUser()
   letter.value = userStore.firstLettre(user.value.name)
 })
 

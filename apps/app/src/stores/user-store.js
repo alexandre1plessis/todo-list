@@ -1,14 +1,10 @@
 import { defineStore } from 'pinia'
 import { api } from 'boot/axios'
 import { Notify } from 'quasar'
+import { Preferences } from '@capacitor/preferences'
 
 export const useUserStore = defineStore('user', {
   state: () => ({ }),
-  getters: {
-    user () {
-      return JSON.parse(localStorage.getItem('user_todo'))
-    }
-  },
 
   actions: {
     async setUser (name, email, password) {
@@ -37,6 +33,8 @@ export const useUserStore = defineStore('user', {
       if (typeof auth === 'object') {
         localStorage.setItem('user_todo', JSON.stringify(auth.user))
         localStorage.setItem('token_todo', JSON.stringify(auth.token))
+        await this.setObject('user_todo', auth.user)
+        await this.setObject('token_todo', auth.token)
         return false
       }
       return auth
@@ -53,8 +51,25 @@ export const useUserStore = defineStore('user', {
       else Notify.create(`Error during change user: ${u}`)
     },
 
-    setUserLocal (user) {
+    async setObject (key, value) {
+      await Preferences.set({
+        key: key,
+        value: JSON.stringify(value)
+      })
+    },
+
+    async getObject (key) {
+      const ret = await Preferences.get({ key: key })
+      return JSON.parse(ret.value)
+    },
+
+    async getUser () {
+      return this.getObject('user_todo')
+    },
+
+    async setUserLocal (user) {
       localStorage.setItem('user_todo', JSON.stringify(user))
+      await this.setObject('user_todo', user)
     },
 
     firstLettre (string) {

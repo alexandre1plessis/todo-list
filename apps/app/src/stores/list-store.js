@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia'
 import { api } from 'boot/axios'
 import { Notify } from 'quasar'
+import { useUserStore } from 'stores/user-store'
 
 export const useListStore = defineStore('list', {
   state: () => ({
@@ -12,7 +13,7 @@ export const useListStore = defineStore('list', {
     task: { title: '', description: '', state: false, list: '' },
     config: {
       headers: {
-        Authorization: `Bearer ${JSON.parse(localStorage.getItem('token_todo'))}`
+        Authorization: `Bearer ${useUserStore().getObject('token_todo')}`
       }
     }
   }),

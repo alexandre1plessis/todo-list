@@ -116,3 +116,5 @@ dist
 !.yarn/cache
 #.pnp.*
 .idea
+apps/app/.env.dist
+apps/app/.env.dist
