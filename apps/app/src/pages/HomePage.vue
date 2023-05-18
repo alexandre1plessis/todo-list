@@ -32,7 +32,7 @@
 </template>
 
 <script setup>
-// import addListComponent from 'components/AddListComponent.vue'
+import addListComponent from 'components/AddListComponent.vue'
 import CardList from 'components/CardList.vue'
 import { useListStore } from 'stores/list-store'
 import { onMounted, computed, ref } from 'vue'
