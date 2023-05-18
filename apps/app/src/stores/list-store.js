@@ -31,7 +31,7 @@ export const useListStore = defineStore('list', {
         .catch(error => Notify.create(`Error during loading lists: ${error.response.data.message}`))
       this.lists = lists.data
       for (const list of this.lists) {
-        list.tasks = await api.get(`/lists/tasks/${list._id}`)
+        list.tasks = await api.get(`/lists/tasks/${list._id}`, this.config)
           .then(reponse => {
             return reponse.data
           })
@@ -68,7 +68,7 @@ export const useListStore = defineStore('list', {
     },
 
     async deleteList (id) {
-      await api.delete('/lists/' + id)
+      await api.delete('/lists/' + id, this.config)
         .then(() => (Notify.create('La liste a été supprimer')))
         .catch(error => (Notify.create(`Error during create a list: ${error.response.data.message}`)))
       await this.getLists()
@@ -90,7 +90,7 @@ export const useListStore = defineStore('list', {
     },
 
     async getTask (id) {
-      this.task = await api.get(`/tasks/${id}`)
+      this.task = await api.get(`/tasks/${id}`, this.config)
         .then(reponse => {
           return reponse.data
         })

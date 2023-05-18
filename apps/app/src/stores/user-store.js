@@ -1,9 +1,9 @@
 import { defineStore } from 'pinia'
 import { api } from 'boot/axios'
+import { Notify } from 'quasar'
 
 export const useUserStore = defineStore('user', {
   state: () => ({ }),
-
   getters: {
     user () {
       return JSON.parse(localStorage.getItem('user_todo'))
@@ -40,6 +40,21 @@ export const useUserStore = defineStore('user', {
         return false
       }
       return auth
+    },
+
+    async updateUser (user) {
+      const data = { user: user }
+      const u = await api.put('/users/', data)
+        .then(() => {
+          return false
+        })
+        .catch(error => { return error.response.data.message })
+      if (!u) Notify.create('Nom Modifier')
+      else Notify.create(`Error during change user: ${u}`)
+    },
+
+    setUserLocal (user) {
+      localStorage.setItem('user_todo', JSON.stringify(user))
     },
 
     firstLettre (string) {

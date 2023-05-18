@@ -5,9 +5,9 @@
     </div>
     <div>
       <h2>Mes listes</h2>
-      <q-btn class="btn q-mx-auto" label="Créer une liste"/>
+      <q-btn class="btn q-mx-auto" label="Créer une liste" @click="$emit('addList')"/>
       <div v-for="list in lists" :key="list._id">
-        <h3>{{list.title}}</h3>
+        <h3 @click="() => router.push({ name: 'list-view', params:{ id: list._id }})" >{{list.title}}</h3>
       </div>
     </div>
   </aside>
@@ -17,9 +17,11 @@
 <script setup>
 import { useListStore } from 'stores/list-store'
 import { onMounted, computed } from 'vue'
+import { useRouter } from 'vue-router'
 
 const listStore = useListStore()
 const lists = computed(() => listStore.lists)
+const router = useRouter()
 
 onMounted(async () => {
   await listStore.getLists()

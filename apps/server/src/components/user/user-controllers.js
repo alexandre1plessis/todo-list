@@ -72,3 +72,19 @@ export const authenticateUser = async (ctx) => {
     ctx.badRequest({ message: error.message });
   }
 };
+
+export const updateUser = async (ctx) => {
+  try{
+    if (!ctx.request.body.user.name) throw new Error('Name is missing')
+    if (!ctx.request.body.user.email) throw new Error('Email is missing')
+    if (!ctx.request.body.user.password) throw new Error('Password is missing')
+    const user = await UserModel.findOne({ _id: ctx.state.auth.userId });
+
+    const userSave = await TaskModel.findOneAndUpdate({ _id: user._id }, ctx.request.body.user, { new: true })
+    if (!userSave) throw new Error('User not found')
+    ctx.ok(userSave)
+  }catch (e) {
+    ctx.badRequest({ message: e.message })
+  }
+
+};
