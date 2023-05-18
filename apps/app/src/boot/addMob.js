@@ -33,7 +33,7 @@ export async function banner () {
     adId: 'ca-app-pub-3940256099942544/6300978111',
     adSize: BannerAdSize.FULL_BANNER,
     position: BannerAdPosition.TOP_CENTER,
-    margin: 60
+    margin: 0
     // isTesting: true
     // npa: true
   }
@@ -47,5 +47,4 @@ export async function interstitial () {
     // npa: true
   }
   await AdMob.prepareInterstitial(options)
-  await AdMob.showInterstitial()
 }

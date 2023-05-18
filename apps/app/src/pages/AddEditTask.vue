@@ -28,6 +28,8 @@ import { onMounted, computed, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useListStore } from 'stores/list-store'
 import { Notify } from 'quasar'
+import { AdMob } from '@capacitor-community/admob'
+import { interstitial } from 'boot/addMob'
 
 const route = useRoute()
 const router = useRouter()
@@ -56,6 +58,7 @@ onMounted(async () => {
     await listStore.getTask(route.params.id)
     taskForm.value = task.value
   }
+  await interstitial()
 })
 
 async function save (pageType) {
@@ -67,8 +70,8 @@ async function save (pageType) {
   if (pageType === 'Créer') {
     try {
       await listStore.createTask(taskForm.value)
-      Notify.create('Tache enregistrer')
-      this.router.go(-1)
+      Notify.create('Tâche enregistrée')
+      this.goBack()
     } catch (e) {
       errors.value.push(e.message)
     }
@@ -76,11 +79,12 @@ async function save (pageType) {
   if (pageType === 'Modifier') {
     try {
       await listStore.updateTask(taskForm.value)
-      Notify.create('Tache modifier')
+      Notify.create('Tâche modifiée')
     } catch (e) {
       errors.value.push(e.message)
     }
   }
+  AdMob.showInterstitial()
 }
 
 function goBack () {

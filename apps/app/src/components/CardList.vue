@@ -18,7 +18,7 @@
       <q-card-section>
         <div class="listCardContent">
             <slot name="default">
-                <p v-if="tasks.length == 0" >Cette liste ne contient aucune tâches ajoutez en une depuis la liste</p>
+                <p v-if="tasks.length == 0" >Cette liste ne contient aucune tâche. Ajoutez en une depuis la liste</p>
                 <div v-else >
                 <TaskComponant
                     v-for="task in tasks"
