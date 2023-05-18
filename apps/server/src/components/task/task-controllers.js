@@ -1,10 +1,18 @@
-import { TaskModel, ListModel } from '../list/list-model.js'
+import {TaskModel, ListModel, UserModel} from '../list/list-model.js'
 import joi from 'joi'
 import { SchemaType } from 'mongoose'
 
 export const getTasks = async (ctx) => {
   try {
-    const tasks = await TaskModel.find({})
+    // Check if user is authenticated
+    if (!ctx.state.user) {
+      ctx.unauthorized({ message: 'User not authenticated' })
+      return
+    }
+
+    // Retrieve tasks belonging to authenticated user
+    const user = await UserModel.findOne({ _id: ctx.state.auth.userId });
+    const tasks = await TaskModel.find({ user: user })
     ctx.ok(tasks)
   } catch (error) {
     ctx.badRequest({ message: error.message })
@@ -13,7 +21,8 @@ export const getTasks = async (ctx) => {
 
 export const getOneTask = async (ctx) => {
   try {
-    const task = await TaskModel.findOne({ _id: ctx.params.id })
+    const user = await UserModel.findOne({ _id: ctx.state.auth.userId });
+    const task = await TaskModel.findOne({ _id: ctx.params.id, user: user })
     if(!task) throw new Error('Task not found')
     ctx.ok(task)
   } catch (error) {
@@ -33,7 +42,8 @@ export const createTask = async (ctx) => {
 
     if(error) throw new Error(error)
 
-    const task = await TaskModel.create(value)
+    const user = await UserModel.findOne({ _id: ctx.state.auth.userId });
+    const task = await TaskModel.create({ ...value, user: user})
     ctx.ok(task)
   } catch (error) {
     ctx.badRequest({ message: error.message })
@@ -44,6 +54,7 @@ export const updateTask = async (ctx) => {
   try {
     if (!ctx.request.body.title) throw new Error('Title is missing')
 
+    const user = await UserModel.findOne({ _id: ctx.state.auth.userId });
     const schema = joi.object({
       title: joi.string(),
       description: joi.string().allow(null, ''),
@@ -53,8 +64,12 @@ export const updateTask = async (ctx) => {
     const { error, value } = schema.validate(ctx.request.body)
 
     if(error) throw new Error(error)
-  
-    const task = await TaskModel.findOneAndUpdate({ _id: ctx.params.id }, value, { new: true })
+
+    // add the user ID to the value object
+    value.user = user
+
+    const task = await TaskModel.findOneAndUpdate({ _id: ctx.params.id, user: user }, value, { new: true })
+    if (!task) throw new Error('Task not found')
     ctx.ok(task)
   } catch (error) {
     ctx.badRequest({ message: error.message })
@@ -63,7 +78,8 @@ export const updateTask = async (ctx) => {
 
 export const deleteTask = async (ctx) => {
   try {
-    const task = await TaskModel.findOneAndDelete({ _id: ctx.params.id })
+    const user = await UserModel.findOne({ _id: ctx.state.auth.userId });
+    const task = await TaskModel.findOneAndDelete({ _id: ctx.params.id, user: user })
     if(!task) throw new Error('Task not found')
     ctx.ok(task)
   } catch (error) {
@@ -77,15 +93,14 @@ export const moveTaskToListById = async (ctx) => {
       listId: joi.string().required()
     })
     const { error, value } = schema.validate(ctx.request.body)
+    const user = await UserModel.findOne({ _id: ctx.state.auth.userId });
 
     if (error) throw new Error(error)
 
-    const task = await TaskModel.findById(ctx.params.taskId)
+    const task = await TaskModel.findOne({ _id: ctx.params.taskId, user: user })
     if (!task) throw new Error('Task not found')
 
-    const newlist = await ListModel.findById(value.listId)
-    console.log(newlist)
-    console.log(task.list.equals(newlist._id))
+    const newlist = await ListModel.findOne({ _id: value.listId, user: user })
     if (!newlist) throw new Error('List not found')
 
     // Check if task is already in new list

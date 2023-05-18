@@ -7,7 +7,14 @@ import axios from 'axios'
 // good idea to move this instance creation inside of the
 // "export default () => {}" function below (which runs individually
 // for each client)
+
 const api = axios.create({ baseURL: 'http://' + process.env.IP_ADDR_SERV + ':5000/api/v1' })
+
+api.interceptors.request.use(config => {
+  config.headers.common['Access-Control-Allow-Origin'] = '*'
+  return config
+})
+
 
 export default boot(({ app }) => {
   // for use inside Vue files (Options API) through this.$axios and this.$api

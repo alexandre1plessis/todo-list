@@ -44,7 +44,7 @@ async function del (id) {
   } else {
     await listStore.deleteTask(id)
   }
-  closeModalSuppr()
+  emit('delete')
 }
 </script>
 <style scoped>

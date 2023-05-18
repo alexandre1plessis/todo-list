@@ -37,10 +37,12 @@ export default defineComponent({
     font-weight: 500;
     text-align: center;
   }
+
   h5 {
     font-size: 1.6em;
     color: #646464;
   }
+
   aside {
     width: 90%;
     position: fixed;
@@ -49,5 +51,9 @@ export default defineComponent({
     background-color: #FFFFFF;
     z-index: 100;
     overflow-y: auto;
+  }
+
+  .error {
+    color : red;
   }
 </style>

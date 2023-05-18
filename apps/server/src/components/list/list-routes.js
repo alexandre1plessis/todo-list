@@ -1,15 +1,16 @@
 import Router from '@koa/router'
 import * as ListControllers from './list-controllers.js'
+import authMiddleware from '../../middleware/auth.js';
 
 const lists = new Router()
 
-lists.get('/', ListControllers.getLists)
-lists.get('/:id', ListControllers.getOneList)
-lists.post('/', ListControllers.createList)
-lists.put('/:id', ListControllers.updateList)
-lists.del('/:id', ListControllers.deleteList)
-lists.get('/tasks/:id', ListControllers.getTasksByListId)
-lists.get('/tasks/done/:id', ListControllers.getCompletedTasksByListId)
-lists.get('/tasks/undone/:id', ListControllers.getUncompletedTasksByListId)
+lists.get('/', authMiddleware, ListControllers.getLists)
+lists.get('/:id', authMiddleware, ListControllers.getOneList)
+lists.post('/', authMiddleware, ListControllers.createList)
+lists.put('/:id', authMiddleware, ListControllers.updateList)
+lists.del('/:id', authMiddleware, ListControllers.deleteList)
+lists.get('/tasks/:id', authMiddleware, ListControllers.getTasksByListId)
+lists.get('/tasks/done/:id', authMiddleware, ListControllers.getCompletedTasksByListId)
+lists.get('/tasks/undone/:id', authMiddleware, ListControllers.getUncompletedTasksByListId)
 
 export default lists

@@ -1,14 +1,47 @@
+import { isAuthenticated } from '../middleware/auth'
 
 const routes = [
   {
     path: '/',
     children: [
-      { path: '', component: () => import('pages/HomePage.vue') },
-      { path: '/tuto', component: () => import('pages/TutoPage.vue') },
-      { path: '/lists/:id', name: 'list-view', component: () => import('pages/ListPage.vue') },
-      { path: '/tasks/:id', name: 'task-page', component: () => import('pages/taskPage.vue') },
-      { path: '/tasks/addEditTask/:idList/:id', name: 'add-edit-task', component: () => import('pages/AddEditTask.vue') },
-      { path: '/tasks/view-task/:idList/:id', name: 'view-task', component: () => import('pages/ViewTask.vue') }
+      { path: '', name: 'connexion', component: () => import('pages/ConnexionPage.vue') },
+      {
+        path: '/home',
+        name: 'home',
+        beforeEnter: [isAuthenticated],
+        component: () => import('pages/HomePage.vue')
+      },
+      {
+        path: '/compte',
+        name: 'compte',
+        beforeEnter: [isAuthenticated],
+        component: () => import('pages/ComptePage.vue')
+      },
+      { path: '/inscription', name: 'inscription', component: () => import('pages/InscriptionPage.vue') },
+      {
+        path: '/lists/:id',
+        name: 'list-view',
+        beforeEnter: [isAuthenticated],
+        component: () => import('pages/ListPage.vue')
+      },
+      {
+        path: '/tasks/:id',
+        name: 'task-page',
+        beforeEnter: [isAuthenticated],
+        component: () => import('pages/taskPage.vue')
+      },
+      {
+        path: '/tasks/addEditTask/:idList/:id',
+        beforeEnter: [isAuthenticated],
+        name: 'add-edit-task',
+        component: () => import('pages/AddEditTask.vue')
+      },
+      {
+        path: '/tasks/view-task/:idList/:id',
+        beforeEnter: [isAuthenticated],
+        name: 'view-task',
+        component: () => import('pages/ViewTask.vue')
+      }
     ]
   },
 

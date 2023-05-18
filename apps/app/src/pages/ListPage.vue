@@ -32,7 +32,7 @@
         </div>
       </div>
     </div>
-      <modal-supression v-if="displayModalSuprr" :id="id" @closeModal="goBack()" ></modal-supression>
+      <modal-supression v-if="displayModalSuprr" :id="id" @closeModal="displayModalSuprr = false" @delete="goBack()"></modal-supression>
   </main>
   <footer>
     <q-btn class="addList" @click="() => router.push({ name: 'add-edit-task', params:{ id: '0', idList: id }})"><q-icon name="add"></q-icon></q-btn>
