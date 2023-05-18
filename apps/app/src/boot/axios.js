@@ -15,7 +15,6 @@ api.interceptors.request.use(config => {
   return config
 })
 
-
 export default boot(({ app }) => {
   // for use inside Vue files (Options API) through this.$axios and this.$api
 

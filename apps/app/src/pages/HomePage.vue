@@ -42,7 +42,6 @@ import MenuComponents from 'components/MenuComponent.vue'
 import { banner } from 'boot/addMob'
 import { useRouter } from 'vue-router'
 
-
 const listStore = useListStore()
 const userStore = useUserStore()
 const lists = computed(() => listStore.lists)
@@ -66,7 +65,6 @@ function handleOpenModalSuppr (id) {
   idSuppr.value = id
   lists.value = listStore.lists
 }
-
 
 function addListAndCloseMenu () {
   menuOpen.value = false
