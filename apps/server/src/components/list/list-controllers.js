@@ -1,11 +1,11 @@
-import { ListModel, TaskModel } from './list-model.js'
+import {ListModel, TaskModel, UserModel} from './list-model.js'
 import joi from 'joi'
 import { SchemaType } from 'mongoose'
 
 export const getLists = async (ctx) => {
   try {
-    const userId = ctx.state.user._id
-    const lists = await ListModel.find({ user: userId })
+    const user = await UserModel.findOne({ _id: ctx.state.auth.userId });
+    const lists = await ListModel.find({ user: user })
     ctx.ok(lists)
   } catch (error) {
     ctx.badRequest({ message: error.message })
@@ -14,8 +14,8 @@ export const getLists = async (ctx) => {
 
 export const getOneList = async (ctx) => {
   try {
-    const user = ctx.state.user;
-    const list = await ListModel.findOne({ _id: ctx.params.id, user: user._id });
+    const user = await UserModel.findOne({ _id: ctx.state.auth.userId });
+    const list = await ListModel.findOne({ _id: ctx.params.id, user: user });
     if (!list) throw new Error('List not found')
     ctx.ok(list)
   } catch (error) {
@@ -25,6 +25,7 @@ export const getOneList = async (ctx) => {
 
 export const createList = async (ctx) => {
   try {
+    ctx.badRequest(JSON.stringify(ctx.request.body))
     if (!ctx.request.body.title) throw new Error('Title is missing')
 
     const schema = joi.object({
@@ -34,11 +35,11 @@ export const createList = async (ctx) => {
 
     if(error) throw new Error(error)
 
-    const { userId } = ctx.state.user
-    const listname = await ListModel.findOne({ title: ctx.request.body.title, userId })
+    const user = await UserModel.findOne({ _id: ctx.state.auth.userId });
+    const listname = await ListModel.findOne({ title: ctx.request.body.title, user: user })
     if (listname) throw new Error('List already exists')
 
-    const list = await ListModel.create({ ...value, userId })
+    const list = await ListModel.create({ ...value, user: user })
     ctx.ok(list)
   } catch (error) {
     ctx.badRequest({ message: error.message })
@@ -47,7 +48,6 @@ export const createList = async (ctx) => {
 
 export const updateList = async (ctx) => {
   try {
-    const userId = ctx.state.user.id;
     if (!ctx.request.body.title) throw new Error('Title is missing')
 
     const schema = joi.object({
@@ -57,12 +57,13 @@ export const updateList = async (ctx) => {
 
     if(error) throw new Error(error)
 
-    const list = await ListModel.findOne({ _id: ctx.params.id, user: userId });
+    const user = await UserModel.findOne({ _id: ctx.state.auth.userId });
+    const list = await ListModel.findOne({ _id: ctx.params.id, user: user });
     if (!list) throw new Error('List not found');
-    const listname = await ListModel.findOne({ title: ctx.request.body.title, user: userId });
+    const listname = await ListModel.findOne({ title: ctx.request.body.title, user: user });
     if (listname && listname._id.toString() !== list._id.toString()) throw new Error('List already exists');
   
-    const updatedList = await ListModel.findOneAndUpdate({ _id: ctx.params.id, user: userId }, value, { new: true });
+    const updatedList = await ListModel.findOneAndUpdate({ _id: ctx.params.id, user: user }, value, { new: true });
     ctx.ok(updatedList)
   } catch (error) {
     ctx.badRequest({ message: error.message })
@@ -71,9 +72,9 @@ export const updateList = async (ctx) => {
 
 export const deleteList = async (ctx) => {
   try {
-    const userId = ctx.state.user._id
+    const user = await UserModel.findOne({ _id: ctx.state.auth.userId });
 
-    const list = await ListModel.findOneAndDelete({ _id: ctx.params.id, user: userId })
+    const list = await ListModel.findOneAndDelete({ _id: ctx.params.id, user: user })
     if(!list) throw new Error('List not found or user is not authorized to delete it')
     ctx.ok(list)
   } catch (error) {
@@ -83,7 +84,8 @@ export const deleteList = async (ctx) => {
 
 export const getTasksByListId = async (ctx) => {
   try {
-    const list = await ListModel.findOne({ _id: ctx.params.id, user: ctx.state.user._id });
+    const user = await UserModel.findOne({ _id: ctx.state.auth.userId });
+    const list = await ListModel.findOne({ _id: ctx.params.id, user: user });
     if (!list) throw new Error('List not found');
 
     const tasks = await TaskModel.find({ list: list._id });
@@ -95,7 +97,8 @@ export const getTasksByListId = async (ctx) => {
 
 export const getCompletedTasksByListId = async (ctx) => {
   try {
-    const tasks = await TaskModel.find({ list: ctx.params.id, state: true, user: ctx.state.user.id })
+    const user = await UserModel.findOne({ _id: ctx.state.auth.userId });
+    const tasks = await TaskModel.find({ list: ctx.params.id, state: true, user: user })
     ctx.ok(tasks || [])
   } catch (error) {
     ctx.badRequest({ message: error.message })
@@ -104,7 +107,8 @@ export const getCompletedTasksByListId = async (ctx) => {
 
 export const getUncompletedTasksByListId = async (ctx) => {
   try {
-    const tasks = await TaskModel.find({ list: ctx.params.id, state: false, user: ctx.state.user.id })
+    const user = await UserModel.findOne({ _id: ctx.state.auth.userId });
+    const tasks = await TaskModel.find({ list: ctx.params.id, state: false, user: user })
     ctx.ok(tasks || [])
   } catch (error) {
     ctx.badRequest({ message: error.message })

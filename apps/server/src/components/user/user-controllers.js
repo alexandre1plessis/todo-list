@@ -57,20 +57,34 @@ export const authenticateUser = async (ctx) => {
 
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET);
 
-    const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
-    const userId = decodedToken.id;
-    const authenticatedUser = await UserModel.findById(userId).select('-password');
+    const authenticatedUser = await UserModel.findById(user._id).select('-password');
 
     ctx.state.user = authenticatedUser;
     ctx.ok({
       token,
       user: {
         id: authenticatedUser._id,
-        name: authenticatedUser.firstName,
+        name: authenticatedUser.name,
         email: authenticatedUser.email
       }
     });
   } catch (error) {
     ctx.badRequest({ message: error.message });
   }
+};
+
+export const updateUser = async (ctx) => {
+  try{
+    if (!ctx.request.body.user.name) throw new Error('Name is missing')
+    if (!ctx.request.body.user.email) throw new Error('Email is missing')
+    if (!ctx.request.body.user.password) throw new Error('Password is missing')
+    const user = await UserModel.findOne({ _id: ctx.state.auth.userId });
+
+    const userSave = await TaskModel.findOneAndUpdate({ _id: user._id }, ctx.request.body.user, { new: true })
+    if (!userSave) throw new Error('User not found')
+    ctx.ok(userSave)
+  }catch (e) {
+    ctx.badRequest({ message: e.message })
+  }
+
 };
