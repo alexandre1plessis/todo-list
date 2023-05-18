@@ -3,8 +3,5 @@
 	"appName": "todomobileapp",
 	"bundledWebRuntime": false,
 	"npmClient": "yarn",
-	"webDir": "www",
-	"server": {
-		"url": "http://192.168.1.42:9500"
-	}
+	"webDir": "www"
 }

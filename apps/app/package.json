@@ -13,6 +13,7 @@
   "dependencies": {
     "@capacitor-community/admob": "^3.3.0",
     "@capacitor/cli": "^4.7.3",
+    "@capacitor/push-notifications": "^5.0.2",
     "@quasar/extras": "^1.0.0",
     "axios": "^0.21.1",
     "dotenv": "^16.0.3",

@@ -29,6 +29,7 @@ onMounted(async () => {
 
 <style scoped>
 aside {
+  margin-top: 60px;
   text-align: left;
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
 }
