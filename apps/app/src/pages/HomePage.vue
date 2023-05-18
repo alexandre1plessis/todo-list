@@ -41,7 +41,8 @@ import ModalSupression from 'components/ModalSupression.vue'
 import MenuComponents from 'components/MenuComponent.vue'
 import { banner } from 'boot/addMob'
 import { useRouter } from 'vue-router'
-import * as NotificationServices from '../services/notification-service.js'
+// eslint-disable-next-line import/namespace
+import { NotificationService } from '../services/notification.service'
 
 const listStore = useListStore()
 const userStore = useUserStore()
@@ -59,7 +60,7 @@ onMounted(async () => {
   await banner()
   user.value = userStore.user
   letter.value = userStore.firstLettre(user.value.name)
-  await NotificationServices.default()
+  await NotificationService.init()
 })
 
 function handleOpenModalSuppr (id) {
